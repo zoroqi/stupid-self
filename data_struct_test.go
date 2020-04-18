@@ -5,7 +5,7 @@ import (
 )
 
 func TestBuildTreeNode(t *testing.T) {
-	a := []int{1, 2, 2, 3, 4, 4, 3}
+	a := []int{1, 0, 2, 3, 4, 4, 3}
 	n := NewTreeNode(a, 0)
 	PrintTreeNode(n)
 }

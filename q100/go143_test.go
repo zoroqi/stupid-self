@@ -9,6 +9,7 @@ func TestReorderList(t *testing.T) {
 	assert(t, []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, []int{0, 9, 1, 8, 2, 7, 3, 6, 4, 5})
 	assert(t, []int{0, 1, 2, 3, 4, 5, 6, 7, 8}, []int{0, 8, 1, 7, 2, 6, 3, 5, 4})
 	assert(t, []int{0, 1, 2}, []int{0, 2, 1})
+	stupid_self.AssertEqual(t, []int{0, 1, 2}, []int{0, 1, 2})
 }
 func BenchmarkReorderList(b *testing.B) {
 	for i := 0; i < b.N; i++ {
