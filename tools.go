@@ -82,3 +82,17 @@ func arrEqual(a, b interface{}) bool {
 	}
 	return true
 }
+
+func IntMax(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func IntMin(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
+}
