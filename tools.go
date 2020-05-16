@@ -27,6 +27,23 @@ func MinInt(x, y int) int {
 	return x
 }
 
+func MaxInts(arr ...int) int {
+	max := arr[0]
+	for _, a := range arr {
+		max = MaxInt(a, max)
+	}
+	return max
+
+}
+
+func MinInts(arr ...int) int {
+	min := arr[0]
+	for _, a := range arr {
+		min = MinInt(a, min)
+	}
+	return min
+}
+
 func AssertEqual(t *testing.T, a, b interface{}) {
 
 	var equals func(a, b interface{}) bool
@@ -59,7 +76,13 @@ func AssertEqualFunc(t *testing.T, a, b interface{}, equals func(a, b interface{
 }
 
 func defaultEqual(a, b interface{}) bool {
-	return a == b
+	aType := reflect.TypeOf(a)
+	switch aType.Kind() {
+	case reflect.Array, reflect.Slice:
+		return arrEqual(a,b)
+	default:
+		return a == b
+	}
 }
 
 func arrEqual(a, b interface{}) bool {
