@@ -79,27 +79,23 @@ func defaultEqual(a, b interface{}) bool {
 	aType := reflect.TypeOf(a)
 	switch aType.Kind() {
 	case reflect.Array, reflect.Slice:
-		return arrEqual(a,b)
+		return arrEqual(a, b)
 	default:
 		return a == b
 	}
 }
 
 func arrEqual(a, b interface{}) bool {
-	aArr, ok := a.([]interface{})
-	if !ok {
-		return false
-	}
-	bArr, ok := b.([]interface{})
-	if !ok {
-		return false
-	}
-	if len(bArr) != len(aArr) {
-		return false
-	}
+	av := reflect.ValueOf(a)
+	bv := reflect.ValueOf(b)
+	al := av.Len()
+	bl := bv.Len()
 
-	for i, ae := range aArr {
-		if !defaultEqual(ae, bArr[i]) {
+	if al != bl {
+		return false
+	}
+	for i:=0;i<al;i++ {
+		if !defaultEqual(av.Index(i).Interface(), bv.Index(i).Interface()) {
 			return false
 		}
 	}
