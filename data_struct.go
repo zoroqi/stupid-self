@@ -107,3 +107,30 @@ func ReverseListNode(node *ListNode) *ListNode {
 	node.Next = nil
 	return tmp2
 }
+
+func PreOrder(node *TreeNode) {
+	if node == nil {
+		return
+	}
+	fmt.Println(node.Val)
+	PreOrder(node.Left)
+	PreOrder(node.Right)
+}
+
+func InOrder(node *TreeNode) {
+	if node == nil {
+		return
+	}
+	InOrder(node.Left)
+	fmt.Println(node.Val)
+	InOrder(node.Right)
+}
+
+func PostOrder(node *TreeNode) {
+	if node == nil {
+		return
+	}
+	PostOrder(node.Left)
+	PostOrder(node.Right)
+	fmt.Println(node.Val)
+}
