@@ -30,11 +30,12 @@ func merge(a, b []int) []int {
 	return r
 }
 
+// 好菜, 竟然些错了多个地方. 一处是笔误, 一处是没有想清楚.
 func QuickSort(nums []int) []int {
 	return quickSort(nums, 0, len(nums)-1)
 }
 func quickSort(nums []int, start, end int) []int {
-	if end-start <= 1 {
+	if end-start < 1 {
 		return nums
 	}
 	temp := nums[start]
@@ -55,6 +56,6 @@ func quickSort(nums []int, start, end int) []int {
 	}
 	nums[s] = temp
 	quickSort(nums, start, s-1)
-	quickSort(nums, s+1, start)
+	quickSort(nums, s+1, end)
 	return nums
 }
