@@ -115,3 +115,12 @@ func IntMin(a, b int) int {
 	}
 	return a
 }
+
+func PrintTreeNodeT(root *TreeNode, t *testing.T) {
+	if root == nil {
+		return
+	}
+	t.Logf("parent:%p ,%+v\n", root, *root)
+	PrintTreeNodeT(root.Left,t)
+	PrintTreeNodeT(root.Right,t)
+}
