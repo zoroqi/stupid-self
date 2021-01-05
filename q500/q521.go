@@ -10,7 +10,7 @@ package q500
 
 输入为两个字符串，输出最长特殊序列的长度。如果不存在，则返回 -1。
 
- 
+
 
 示例 1：
 
@@ -25,12 +25,12 @@ package q500
 
 输入：a = "aaa", b = "aaa"
 输出：-1
- 
+
 
 提示：
 
-两个字符串长度均处于区间 [1 - 100] 。
-字符串中的字符仅含有 'a'~'z' 。
+两个字符串长度均处于区间 [1 - 100] 。
+字符串中的字符仅含有 'a'~'z' 。
 
 来源：力扣（LeetCode）
 链接：https://leetcode-cn.com/problems/longest-uncommon-subsequence-i
