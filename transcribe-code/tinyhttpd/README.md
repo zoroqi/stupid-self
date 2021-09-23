@@ -58,6 +58,10 @@ Processed 59346 bytes, 0.059 megabytes (SI)
         * 只能自己进行缓存
         * 这代码复杂度不可想象
     3. 每一次消费都使用 `MSG_PEEK` 效果还没有一个一个来的好.
+4. `headers`方法要把`filename`传进去, 但是为什么呢?
+5. `const char *`是可以指代数组吗?
+    1. 可以转换, 但不别扭吗. https://www.cnblogs.com/kevinWu7/p/10163446.html
+    2. 这种细小的差异真的是蛋疼啊
 
 
 

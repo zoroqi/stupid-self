@@ -38,8 +38,8 @@ void unimplemented(int);
 
 void error_die (const char *sc)
 {
-    perror(sc)
-    exit(1)
+    perror(sc);
+    exit(1);
 }
 
 
@@ -53,12 +53,12 @@ void error_die (const char *sc)
  */
 void bad_request(int client)
 {
-    char buf[1024]
+    char buf[1024];
     sprintf(buf, "HTTP/1.0 400 BAD REQUEST\r\n");
     send(client, buf, strlen(buf), 0);
-    sprintf(buf, "Content-Type: text/html\r\n")
+    sprintf(buf, "Content-Type: text/html\r\n");
     send(client, buf, strlen(buf), 0);
-    sprintf(buf,"\r\n")
+    sprintf(buf,"\r\n");
     send(client, buf, strlen(buf), 0);
     sprintf(buf, "<P>Your browser sent a bad request,\r\n");
     send(client, buf, strlen(buf), 0);
@@ -72,12 +72,12 @@ void bad_request(int client)
  */
 void cannot_execute(int client)
 {
-    char buf[1024]
+    char buf[1024];
     sprintf(buf, "HTTP/1.0 500 Internal Server Error\r\n");
     send(client, buf, strlen(buf), 0);
-    sprintf(buf, "Content-Type: text/html\r\n")
+    sprintf(buf, "Content-Type: text/html\r\n");
     send(client, buf, strlen(buf), 0);
-    sprintf(buf,"\r\n")
+    sprintf(buf,"\r\n");
     send(client, buf, strlen(buf), 0);
     sprintf(buf, "<P> Error prohibited CGI execution.\r\n");
     send(client, buf, strlen(buf), 0);
@@ -93,21 +93,21 @@ void not_found(int client)
     sprintf(buf, "HTTP/1.0 404 NOT FOUND\r\n");
     send(client, buf, strlen(buf), 0);
     sprintf(buf, SERVER_STRING);
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "Content-Type: text/html\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf,"\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "<HTML><TITLE>Not Found</TITLE>\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "<BODY><P>Thre seerver could not fulfill\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "your request becase the resource, specified\r\n");
-    send(clent, buf, strlen(buf),0);
-    sprint(buf, "is unavailable or nonexistent.\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
+    sprintf(buf, "is unavailable or nonexistent.\r\n");
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "</BODY></HTML>\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
 }
 /**
  * 501 没有实现
@@ -118,19 +118,34 @@ void unimplemented(int client)
     sprintf(buf, "HTTP/1.0 501 Method Not Implemented\r\n");
     send(client, buf, strlen(buf), 0);
     sprintf(buf, SERVER_STRING);
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "Content-Type: text/html\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf,"\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "<HTML><HEAD><TITLE>Method Not Implemented\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "</TITLE></HEAD>\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
     sprintf(buf, "<BODY><P>HTTP request method not supported.\r\n");
-    send(clent, buf, strlen(buf),0);
-    sprint(buf, "</BODY></HTML>\r\n");
-    send(clent, buf, strlen(buf),0);
+    send(client, buf, strlen(buf),0);
+    sprintf(buf, "</BODY></HTML>\r\n");
+    send(client, buf, strlen(buf),0);
+}
+
+void headers(int client, const char *filename)
+{
+    char buf[1024];
+    // 这句彻底不同
+    (void)filename; /* could use filename to determine file type */
+    sprintf(buf, "HTTP/1.0 200 OK\r\n");
+    send(client, buf, strlen(buf), 0);
+    sprintf(buf, SERVER_STRING);
+    send(client, buf, strlen(buf),0);
+    sprintf(buf, "Content-Type: text/html\r\n");
+    send(client, buf, strlen(buf),0);
+    sprintf(buf,"\r\n");
+    send(client, buf, strlen(buf),0);
 }
 
 /**
@@ -165,9 +180,32 @@ int get_line(int sock, char *buf, int size)
 
     }
     // 设置结束
-    buf[i] = '\0'
+    buf[i] = '\0';
     return(i);
 }
+
+void serve_file(int client, const char *filename)
+{
+    FILE *resource = NULL;
+    int numchars = 1;
+    char buf[1024];
+
+    buf[0] = 'A'; buf[1] = '\0';
+    while ((numchars > 0) && strcmp("\n", buf))
+        numchars = get_line(client, buf, sizeof(buf));
+
+    resource = fopen(filename, "r");
+    if (resource == NULL)
+        not_found(client);
+    else
+    {
+        headers(client, filename);
+        cat(client,resource)
+    }
+    fclose(resource)
+
+}
+
 
 void accept_request(void *arg)
 {
@@ -179,22 +217,24 @@ void accept_request(void *arg)
     char path[512];
     size_t i,j;
     struct stat st;
+    int cgi = 0;
 
     char *query_string = NULL;
     numchars = get_line(client, buf, sizeof(buf));
     i = 0; j = 0;
-    while (!Isspace[buf[i]] && (i <sizeof(method)-1))
+    while (!ISspace(buf[i]) && (i < sizeof(method)-1))
     {
-        method[i]=buf[i]
+        method[i]=buf[i];
         i++;
     }
     j=i;
     method[i]='\0';
+
     if (strcasecmp(method, "GET") && strcasecmp(method,"POST"))
     {
         // 无法处理
         unimplemented(client);
-        return
+        return;
     }
 
     if(strcasecmp(method,"POST") == 0)
@@ -205,7 +245,7 @@ void accept_request(void *arg)
         j++;
     while (!ISspace(buf[j]) && (i < sizeof(url) -1 ) && (j < numchars))
     {
-        url[i] = buf[j]
+        url[i] = buf[j];
         i++;j++;
     }
     url[i] = '\0';
@@ -217,7 +257,7 @@ void accept_request(void *arg)
         if (*query_string == '?')
         {
             cgi = 1;
-            *query_string = '\0'
+            *query_string = '\0';
             query_string++;
         }
     }
@@ -227,23 +267,23 @@ void accept_request(void *arg)
         strcat(path, "index.html");
     if (stat(path, &st) == -1) {
         while ((numchars > 0) && strcmp("\n", buf))
-            numchars = get_line(client, buf, sizeof(buf))
-        not_found(clent)
+            numchars = get_line(client, buf, sizeof(buf));
+        not_found(client);
     }
     else
     {
         if ((st.st_mode & S_IFMT) == S_IFDIR)
-            strcat(path, "/index.html")
+            strcat(path, "/index.html");
         if ((st.st_mode & S_IXUSR) ||
                 (st.st_mode & S_IXGRP) ||
                 (st.st_mode & S_IXOTH)   )
             cgi = 1;
         if (!cgi)
-            serve_file(client,path)
+            serve_file(client,path);
         else
-            execute_cgi(clent,path,method,query_string)
+            execute_cgi(client,path,method,query_string);
     }
-    close(clent);
+    close(client);
 }
 
 int startup(u_short *port)
@@ -265,7 +305,7 @@ int startup(u_short *port)
     // https://man7.org/linux/man-pages/man2/socket.2.html
     // 创建一个套接字
     httpd = socket(PF_INET, SOCK_STREAM, 0);
-    if httd == -1
+    if (httpd == -1)
         error_die("socket");
     // 初始化
     memset(&name, 0, sizeof(name));
@@ -285,19 +325,19 @@ int startup(u_short *port)
     // https://www.gta.ufrj.br/ensino/eel878/sockets/sockaddr_inman.html
     // So, with that in mind, remember that whenever a function says it takes a struct sockaddr* you can cast your struct sockaddr_in* to that type with ease and safety.
     if (bind(httpd, (struct sockaddr *)&name, sizeof(name)) <0 )
-        error_die("bind")
+        error_die("bind");
     if (*port == 0) {
-        socklen_t namelen = sizeof(name)
+        socklen_t namelen = sizeof(name);
         // 获得名字然后写入 httpd
         if (getsockname(httpd, (struct sockaddr *)&name, &namelen) == -1 )
             error_die("getsockname");
         // 这两步的正反含义是啥?
-        *port = ntohs(name.sin_port)
+        *port = ntohs(name.sin_port);
     }
     // 监听
     if (listen(httpd, 5) < 0 )
-        error_die("listen")
-    return(httpd)
+        error_die("listen");
+    return(httpd);
 }
 /**
  * https://man7.org/linux/man-pages/man3/pthread_create.3.html
@@ -314,7 +354,7 @@ int main(void)
     u_short port = 4000;
     int client_sock = -1;
     struct sockaddr_in client_name;
-    socklen_t client_name_len = sizeof(client_name)
+    socklen_t client_name_len = sizeof(client_name);
     pthread_t newthread;
 
     server_sock = startup(&port);
@@ -333,7 +373,7 @@ int main(void)
             (void *)accept_request, (void *)(intptr_t)client_sock) != 0 )
             perror("pthread_create");
     }
-    close(server_sock)
-    return(0)
+    close(server_sock);
+    return(0);
 }
 
