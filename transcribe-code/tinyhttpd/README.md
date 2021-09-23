@@ -33,6 +33,13 @@ Processed 59346 bytes, 0.059 megabytes (SI)
 
 ### call graph
 
+方法调用图, 使用工具 [cally](https://github.com/chaudron/cally), 工具依赖 `gcc`和`graphviz`
+
+完整调用图
+![](./full_call_graph.svg)
+
+内部函数调用图
+![](./inner_call_graph.svg)
 
 
 ## 辅助网站
@@ -62,7 +69,6 @@ Processed 59346 bytes, 0.059 megabytes (SI)
 5. `const char *`是可以指代数组吗?
     1. 可以转换, 但不别扭吗. https://www.cnblogs.com/kevinWu7/p/10163446.html
     2. 这种细小的差异真的是蛋疼啊
-
 
 
 ## 代码流程
