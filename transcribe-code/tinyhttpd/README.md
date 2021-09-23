@@ -33,6 +33,13 @@ Processed 59346 bytes, 0.059 megabytes (SI)
 
 ### call graph
 
+方法调用图, 使用工具 [cally](https://github.com/chaudron/cally), 工具依赖 `gcc`和`graphviz`
+
+完整调用图
+![](./full_call_graph.svg)
+
+内部函数调用图
+![](./inner_call_graph.svg)
 
 
 ## 辅助网站
@@ -58,7 +65,6 @@ Processed 59346 bytes, 0.059 megabytes (SI)
         * 只能自己进行缓存
         * 这代码复杂度不可想象
     3. 每一次消费都使用 `MSG_PEEK` 效果还没有一个一个来的好.
-
 
 
 ## 代码流程
