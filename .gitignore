@@ -146,6 +146,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
----------
+# ---------
+
+.stack-work/
+
+# ---------
 
 transcribe-code/tinyhttpd/httpd.dSYM
+
+
