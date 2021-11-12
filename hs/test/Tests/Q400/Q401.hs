@@ -1,4 +1,4 @@
-module Tests.Q401
+module Tests.Q400.Q401
     (tests
     )
     where

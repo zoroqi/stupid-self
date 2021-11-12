@@ -27,6 +27,8 @@ library
   exposed-modules:
       Lib
       Q400.Q401
+      Q400.Q404
+      Struct
       Tools
   other-modules:
       Paths_hs
@@ -52,7 +54,8 @@ test-suite hs-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Tests.Q401
+      Tests.Q400.Q401
+      Tests.Q400.Q404
       Paths_hs
   hs-source-dirs:
       test
