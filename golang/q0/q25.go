@@ -1,7 +1,7 @@
 package q0
 
 import (
-	. "github.com/zoroqi/stupid-self"
+	. "github.com/zoroqi/stupid-self/golang"
 )
 
 /**

@@ -1,6 +1,6 @@
 package q500
 
-import . "github.com/zoroqi/stupid-self"
+import . "github.com/zoroqi/stupid-self/golang"
 
 /**
  * Definition for a binary tree node.
