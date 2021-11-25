@@ -30,6 +30,8 @@ library
       Q400.Q404
       Q400.Q406
       Q400.Q412
+      Q400.Q441
+      Q400.Q448
       Struct
       Tools
   other-modules:
@@ -38,6 +40,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , unordered-containers >=0.2.14.0
   default-language: Haskell2010
 
 executable hs-exe
@@ -50,6 +53,7 @@ executable hs-exe
   build-depends:
       base >=4.7 && <5
     , hs
+    , unordered-containers >=0.2.14.0
   default-language: Haskell2010
 
 test-suite hs-test
@@ -68,4 +72,5 @@ test-suite hs-test
       HUnit >=1.6.1.0
     , base >=4.7 && <5
     , hs
+    , unordered-containers >=0.2.14.0
   default-language: Haskell2010
