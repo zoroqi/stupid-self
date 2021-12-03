@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Q400.Q400
       Q400.Q401
       Q400.Q404
       Q400.Q406
