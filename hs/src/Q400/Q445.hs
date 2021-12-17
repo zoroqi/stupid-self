@@ -14,6 +14,3 @@ sumPlanA [] [] x xs = x:xs
 sumPlanA [] (r:rs) x xs = sumPlanA [] rs ((x+r) `div` 10) (((x+r) `mod` 10):xs)
 sumPlanA (l:ls) [] x xs = sumPlanA ls [] ((x+l) `div` 10) (((x+l) `mod` 10):xs)
 sumPlanA (l:ls) (r:rs) x xs = sumPlanA ls rs ((x+l+r) `div` 10 ) (((x+l+r) `mod` 10):xs)
-
-numm :: (Int, String) b => b -> b
-numm b -> b
