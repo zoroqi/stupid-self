@@ -29,3 +29,9 @@ func TestFindDisappearedNumbersPlanC(t *testing.T) {
 		stupid_self.AssertEqual(t, findDisappearedNumbersPlanC(v[0]), v[1])
 	}
 }
+
+func TestBC(t *testing.T) {
+	for _, v := range q400list {
+		stupid_self.AssertEqual(t, findDisappearedNumbersPlanC(v[0]), findDisappearedNumbersPlanC(v[0]))
+	}
+}
