@@ -30,4 +30,4 @@ magicalStringPlanB :: Int -> Int
 magicalStringPlanB a = foldl (+) 0 . filter (\x -> x == 1) $ (take a ([1,2] ++ (concat planb)))
 
 planb :: [[Int]]
-planb = [[2]]++(zipWith expand [mod x 2 + 1| x <- [1..]] (concat planb))
+planb = [[2]]++(zipWith expand (cycle [2,1]) (concat planb))
