@@ -7,7 +7,7 @@ tag:
 - 工具
 ---
 
-# VerbalExpression 源码阅读
+# JavaVerbalExpressions 源码阅读
 
 [VerbalExpressions](https://github.com/VerbalExpressions/JavaVerbalExpressions)
 
