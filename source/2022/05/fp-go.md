@@ -1,6 +1,6 @@
 ---
 git: "https://github.com/repeale/fp-go"
-tag:
+tags:
 - 源码
 - golang
 - fp

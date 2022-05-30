@@ -1,6 +1,6 @@
 ---
 git: "https://github.com/VerbalExpressions/JavaVerbalExpressions"
-tag:
+tags:
 - 源码
 - java
 - 正则

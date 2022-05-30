@@ -1,6 +1,6 @@
 ---
 git: "https://github.com/barenboim/json-parser"
-tag:
+tags:
 - 源码
 - "c/c++"
 - json

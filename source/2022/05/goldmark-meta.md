@@ -1,6 +1,6 @@
 ---
 git: "https://github.com/yuin/goldmark-meta"
-tag:
+tags:
 - 源码
 - markdown
 - yaml
