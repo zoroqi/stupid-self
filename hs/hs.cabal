@@ -40,6 +40,7 @@ library
       Q400.Q481
       Q400.Q492
       Q400.Q496
+      Q800.Q806
       Struct
       Tools
   other-modules:
@@ -72,6 +73,7 @@ test-suite hs-test
       Tests.Q400.Q404
       Tests.Q400.Q406
       Tests.Q400.Q412
+      Tests.Q800.Q806
       Paths_hs
   hs-source-dirs:
       test
