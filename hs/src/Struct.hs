@@ -1,9 +1,13 @@
 module Struct
     ( BinTree(..),
+        leaf,
         SStack(..)
     ) where
 
-data BinTree a = Empty | Node a (BinTree a) (BinTree a)
+data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
+
+leaf :: a -> BinTree a
+leaf a = Node a Empty Empty
 
 type SStack a = [a]
 

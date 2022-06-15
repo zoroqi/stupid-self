@@ -1,5 +1,5 @@
 ---
-git: "https://github.com/yuin/goldmark-meta"
+github: "https://github.com/yuin/goldmark-meta"
 tags:
 - 源码
 - markdown

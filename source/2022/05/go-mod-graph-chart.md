@@ -1,5 +1,5 @@
 ---
-git: "https://github.com/PaulXu-cn/go-mod-graph-chart"
+github: "https://github.com/PaulXu-cn/go-mod-graph-chart"
 tags:
 - 源码
 - golang

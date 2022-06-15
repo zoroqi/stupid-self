@@ -1,5 +1,5 @@
 ---
-git: "https://github.com/repeale/fp-go"
+github: "https://github.com/repeale/fp-go"
 tags:
 - 源码
 - golang

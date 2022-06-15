@@ -1,5 +1,5 @@
 ---
-git: "https://github.com/barenboim/json-parser"
+github: "https://github.com/barenboim/json-parser"
 tags:
 - 源码
 - "c/c++"

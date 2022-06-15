@@ -1,5 +1,5 @@
 ---
-git: "https://github.com/VerbalExpressions/JavaVerbalExpressions"
+github: "https://github.com/VerbalExpressions/JavaVerbalExpressions"
 tags:
 - 源码
 - java
