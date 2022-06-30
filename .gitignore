@@ -37,6 +37,7 @@
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
+golang/temp/
 
 # JIRA plugin
 atlassian-ide-plugin.xml

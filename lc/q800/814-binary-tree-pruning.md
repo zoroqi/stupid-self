@@ -2,6 +2,9 @@
 aliases:
 - 814. 二叉树剪枝
 - 814. binary tree pruning
+tc:
+- leetcode
+- algorithm
 leetcode:
     num: 814
     url: https://leetcode.cn/problems/binary-tree-pruning/

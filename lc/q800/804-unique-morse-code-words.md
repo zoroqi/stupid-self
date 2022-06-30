@@ -2,6 +2,9 @@
 aliases:
 - 804. 唯一摩尔斯密码词
 - 804. unique morse code words
+tc:
+- leetcode
+- algorithm
 leetcode:
     num: 804
     url: https://leetcode.cn/problems/unique-morse-code-words/

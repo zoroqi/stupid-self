@@ -2,6 +2,9 @@
 aliases:
 - 806. 写字符串需要的行数
 - 806. number of lines to write string
+tc:
+- leetcode
+- algorithm
 leetcode:
     num: 806
     url: https://leetcode.cn/problems/number-of-lines-to-write-string/

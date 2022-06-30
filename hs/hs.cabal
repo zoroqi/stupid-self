@@ -26,23 +26,11 @@ source-repository head
 library
   exposed-modules:
       Lib
-      Q400.Q400
-      Q400.Q401
-      Q400.Q404
-      Q400.Q406
-      Q400.Q412
-      Q400.Q440
-      Q400.Q441
-      Q400.Q445
-      Q400.Q448
-      Q400.Q456
-      Q400.Q461
-      Q400.Q481
-      Q400.Q492
-      Q400.Q496
       Q800.Q804
       Q800.Q806
       Q800.Q814
+      Q800.Q841
+      Q800.Q844
       Struct
       Tools
   other-modules:
@@ -52,6 +40,7 @@ library
   build-depends:
       base >=4.7 && <5
     , unordered-containers >=0.2.14.0
+    , regex-posix >= 0.96.0.1
   default-language: Haskell2010
 
 executable hs-exe
