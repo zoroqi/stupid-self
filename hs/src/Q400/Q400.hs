@@ -30,5 +30,5 @@ planB m c = (splitNum num)!!index where
         index = c - ((m-1) `mod` c) - 1
 
 pow :: Int -> Int -> Int
-pow x1 0 = 1
+pow _ 0 = 1
 pow x1 x2 = foldl (*) 1 . take x2 . repeat $ x1

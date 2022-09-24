@@ -5,6 +5,7 @@ module Q800.Q804
 
 import Data.List as List
 
+morse :: [String]
 morse = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
 
 uniqueMorseRepresentationsPlanA :: [String] -> Int
