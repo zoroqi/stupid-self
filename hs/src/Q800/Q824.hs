@@ -12,6 +12,8 @@ toGoatLatinPlanA str = unwords . map goat $ (zipWith (,) (words str) [0..])
                         (o@('i':_), cc) -> vowel o cc
                         (o@('o':_), cc) -> vowel o cc
                         (o@('u':_), cc) -> vowel o cc
-                        (o@(x:xs), cc) -> consonant xs x cc
-                    vowel s n = s++"ma"++['a' | x<-[0..n]]
-                    consonant s t n = s++[t] ++"ma"++['a' | x<-[0..n]]
+                        ((x:xs), cc) -> consonant xs x cc
+                        ([],_) -> ""
+                    vowel s n = s++"ma"++(alist n)
+                    consonant s t n = s++[t] ++"ma"++(alist n)
+                    alist n = take n . repeat $ 'a'

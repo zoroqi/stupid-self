@@ -5,7 +5,7 @@ module Q400.Q441
 
 arrangeCoins :: Integer -> Integer
 arrangeCoins 0 = 0
-arrangeCoins n = floor $ ((sqrt . fromIntegral $ (1+8*n)) - 1) / 2
+arrangeCoins n = floor $ ((sqrt . fromIntegral $ (1+8*n)::Double) - 1) / 2
 
 
 arrangeCoinsPlanA :: Integer -> Integer

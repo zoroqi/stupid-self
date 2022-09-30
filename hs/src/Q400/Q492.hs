@@ -3,5 +3,5 @@ module Q400.Q492
     ) where
 
 constructRectanglePlanB :: Integral a => a -> (a, a)
-constructRectanglePlanB area = head . filter (\(l,m) -> l*m == area) . map (\x -> (div area x,x)) $ [m,m-1..1]
-                        where m = floor . sqrt . fromIntegral $ area
+constructRectanglePlanB area = head . filter (\(l,m) -> l*m == area) . map (\x -> (div area x,x)) $ [mm,mm-1..1]
+                    where mm = floor . (sqrt :: Double -> Double) . fromIntegral $ area

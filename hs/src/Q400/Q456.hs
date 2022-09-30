@@ -9,7 +9,7 @@ find132patternPlanA [_,_] = False
 find132patternPlanA nums = not . null . filter (\(x,y,z) -> x < z && z < y) . plana $ nums
 
 plana :: [Int] -> [(Int,Int,Int)]
-plana (x:y:[]) = []
+plana (_:_:[]) = []
 plana nums = (ff nums) ++ (plana (tail nums))
                 where
                     ff (a:b:[]) = []
