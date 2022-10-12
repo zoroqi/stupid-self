@@ -1,5 +1,5 @@
 ---
-github: "https://github.com/PaulXu-cn/go-mod-graph-chart"
+github: https://github.com/PaulXu-cn/go-mod-graph-chart
 tags:
 - 源码
 - golang
@@ -7,6 +7,7 @@ tags:
 - dependency
 - 依赖管理
 date: "2022-05-30"
+id: 20220530203952_d415d3c12b4745ef
 ---
 
 # go-mod-graph-chart 源码阅读

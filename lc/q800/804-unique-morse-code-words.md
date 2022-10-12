@@ -6,12 +6,14 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 804
-    url: https://leetcode.cn/problems/unique-morse-code-words/
-    tags:
-    - 数组
-    - 哈希表
-    - 字符串
+  num: 804
+  url: https://leetcode.cn/problems/unique-morse-code-words/
+  tags:
+  - 数组
+  - 哈希表
+  - 字符串
+id: 20221012213340_ecf36e7d34974c98
+date: "2022-10-12"
 ---
 
 # 806. 唯一摩尔斯密码词

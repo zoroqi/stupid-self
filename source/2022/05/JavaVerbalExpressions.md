@@ -1,10 +1,11 @@
 ---
-github: "https://github.com/VerbalExpressions/JavaVerbalExpressions"
+github: https://github.com/VerbalExpressions/JavaVerbalExpressions
 tags:
 - 源码
 - java
 - 正则
 - 工具
+id: 20221012214554_655ab0ac4f944e58
 ---
 
 # JavaVerbalExpressions 源码阅读

@@ -1,11 +1,12 @@
 ---
-github: "https://github.com/yuin/goldmark-meta"
+github: https://github.com/yuin/goldmark-meta
 tags:
 - 源码
 - markdown
 - yaml
 - golang
 date: "2022-05-17"
+id: 20220517155609_b02f07dc66f344be
 ---
 
 # goldmark-meta 源码阅读

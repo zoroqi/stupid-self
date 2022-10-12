@@ -6,10 +6,12 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 842
-    url: https://leetcode.cn/problems/goat-latin/
-    tags:
-    - 字符串
+  num: 842
+  url: https://leetcode.cn/problems/goat-latin/
+  tags:
+  - 字符串
+id: 20221012215328_d91116d700bc4428
+date: "2022-10-12"
 ---
 
 # 824

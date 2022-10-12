@@ -1,5 +1,5 @@
 ---
-github: "https://github.com/repeale/fp-go"
+github: https://github.com/repeale/fp-go
 tags:
 - 源码
 - golang
@@ -7,6 +7,7 @@ tags:
 - 函数式
 - 流式编程
 date: "2022-05-17"
+id: 20220517053620_006d10fe56a9495e
 ---
 
 # fp-go 源码阅读

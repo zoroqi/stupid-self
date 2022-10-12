@@ -1,5 +1,5 @@
 ---
-github: "https://github.com/fuzmish/manioc"
+github: https://github.com/fuzmish/manioc
 tags:
 - 源码
 - golang
@@ -9,6 +9,7 @@ date: "2022-06-14"
 tc:
 - github
 - reading_code
+id: 20220614094736_0326b08aede7491c
 ---
 
 # manioc 源码阅读

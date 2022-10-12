@@ -6,12 +6,14 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 814
-    url: https://leetcode.cn/problems/binary-tree-pruning/
-    tags:
-    - 树
-    - 二叉树
-    - 深度优先遍历
+  num: 814
+  url: https://leetcode.cn/problems/binary-tree-pruning/
+  tags:
+  - 树
+  - 二叉树
+  - 深度优先遍历
+id: 20221012213751_3b5aa704a1fa4206
+date: "2022-10-12"
 ---
 
 # 814. 二叉树剪枝

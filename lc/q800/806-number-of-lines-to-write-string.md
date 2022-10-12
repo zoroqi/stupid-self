@@ -6,8 +6,10 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 806
-    url: https://leetcode.cn/problems/number-of-lines-to-write-string/
+  num: 806
+  url: https://leetcode.cn/problems/number-of-lines-to-write-string/
+id: 20221012215653_7520cc5f6acb4a17
+date: "2022-10-12"
 ---
 
 # 806. 写字符串需要的行数

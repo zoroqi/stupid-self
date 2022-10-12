@@ -6,12 +6,14 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 838
-    url: https://leetcode.cn/problems/push-dominoes/
-    tags:
-    - 字符串
-    - 双指针
-    - 动态规划
+  num: 838
+  url: https://leetcode.cn/problems/push-dominoes/
+  tags:
+  - 字符串
+  - 双指针
+  - 动态规划
+id: 20221012215511_1036cbb5ef9245a6
+date: "2022-10-12"
 ---
 
 # 838. 推多米诺

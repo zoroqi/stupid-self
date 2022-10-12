@@ -3,11 +3,16 @@ aliases:
 - 831. 隐藏个人信息
 - 831. masking personal information
 leetcode:
-    num: 831
-    url: https://leetcode.cn/problems/number-of-lines-to-write-string/
-    tags:
-    - 字符串
-    - 正则
+  num: 831
+  url: https://leetcode.cn/problems/number-of-lines-to-write-string/
+  tags:
+  - 字符串
+  - 正则
+id: 20221012222439_e149dbbbd00c43e9
+date: "2022-10-12"
+tc:
+- leetcode
+- algorithm
 ---
 
 # 831. 隐藏个人信息

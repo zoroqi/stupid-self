@@ -1,3 +1,7 @@
+---
+id: 20221012215519_2c26221f06fc4a9c
+---
+
 # cron
 
 [cron](https://github.com/robfig/cron) golang实现的一个定时模块 [文档](https://godoc.org/github.com/robfig/cron)

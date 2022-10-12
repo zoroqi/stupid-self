@@ -6,13 +6,15 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 846
-    url: https://leetcode.cn/problems/hand-of-straights/
-    tags:
-    - 贪心
-    - 数组
-    - 哈希表
-    - 排序
+  num: 846
+  url: https://leetcode.cn/problems/hand-of-straights/
+  tags:
+  - 贪心
+  - 数组
+  - 哈希表
+  - 排序
+id: 20221012213536_54772eec2aa4422f
+date: "2022-10-12"
 ---
 
 # 844. 比较含退格的字符串

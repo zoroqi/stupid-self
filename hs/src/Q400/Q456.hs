@@ -12,5 +12,7 @@ plana :: [Int] -> [(Int,Int,Int)]
 plana (_:_:[]) = []
 plana nums = (ff nums) ++ (plana (tail nums))
                 where
-                    ff (a:b:[]) = []
+                    ff (_:_:[]) = []
+                    ff [_] = []
+                    ff [] = []
                     ff (a:b:c) = [(i,j,k) | i <- [a], j <-[b],k <-c] ++ (ff (a:c))

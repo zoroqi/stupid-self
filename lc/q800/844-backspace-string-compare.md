@@ -6,12 +6,14 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 844
-    url: https://leetcode.cn/problems/backspace-string-compare/
-    tags:
-    - 字符串
-    - 双指针
-    - 栈
+  num: 844
+  url: https://leetcode.cn/problems/backspace-string-compare/
+  tags:
+  - 字符串
+  - 双指针
+  - 栈
+id: 20221012214021_8ba1282f332a4055
+date: "2022-10-12"
 ---
 
 # 844. 比较含退格的字符串

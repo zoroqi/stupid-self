@@ -1,11 +1,12 @@
 ---
-github: "https://github.com/golang/groupcache"
+github: https://github.com/golang/groupcache
 tags:
 - 源码
 - golang
 - 缓存
 - google
 date: "2022-06-14"
+id: 20220614173952_bc70803b50114b92
 ---
 
 # groupcache 源码阅读

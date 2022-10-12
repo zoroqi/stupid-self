@@ -6,13 +6,15 @@ tc:
 - leetcode
 - algorithm
 leetcode:
-    num: 841
-    url: https://leetcode.cn/problems/keys-and-rooms/
-    tags:
-    - dfs
-    - bfs
-    - 图
-    - 有向图
+  num: 841
+  url: https://leetcode.cn/problems/keys-and-rooms/
+  tags:
+  - dfs
+  - bfs
+  - 图
+  - 有向图
+id: 20221012222340_185bdec6e0c54b12
+date: "2022-10-12"
 ---
 
 # 841. 钥匙和房间
