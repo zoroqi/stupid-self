@@ -25,6 +25,7 @@ expand 1 2 = [2, 2]
 expand 2 2 = [1, 1]
 expand 1 1 = [2]
 expand 2 1 = [1]
+expand _ _ = []
 
 magicalStringPlanB :: Int -> Int
 magicalStringPlanB a = foldl (+) 0 . filter (\x -> x == 1) $ (take a ([1,2] ++ (concat planb)))

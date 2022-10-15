@@ -1,7 +1,11 @@
 module Struct
     ( BinTree(..),
         leaf,
-        SStack
+        SStack,
+        spush,
+        spop,
+        sempty,
+        speek
     ) where
 
 data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)

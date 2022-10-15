@@ -38,4 +38,5 @@ planc ns = f ns [] []
         f (n:nx) s r
           | n > last s = f (n:nx) (init s) ((last s,n):r)
           | n < last s = f nx (s ++ [n]) r
+          | otherwise = []
 

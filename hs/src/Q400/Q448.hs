@@ -22,12 +22,17 @@ findDisappearedNumbersPlanB n = planb nl [1..(length n)]
 
 
 planb :: [Int] -> [Int] -> [Int]
-planb [] [] = []
-planb [] (y:ys) = y : (planb [] ys)
-planb (x:xs) (y:ys)
-             | x == y = planb xs ys
-             | x > y  = y : planb (x:xs) ys
+planb _ [] = []
+planb [] y = y
+planb (x@(xs:xss)) (y:ys)
+             | xs == y = planb xss ys
+             | xs > y  = y : planb x ys
+             | otherwise = ys
 
+-- [_] [_]
+-- [_] (_:_:_)
+-- (_:_:_) [_]
+-- (_:_:_) (_:_:_)
 
 -- n := len(nums)
 -- for _, v := range nums {

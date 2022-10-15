@@ -84,3 +84,33 @@ golang 语法好像可以, 但有限制不允许对别的包进行扩展.
 我猜测这种影响范围应该是只限制在包内, 无法传播的,
     不然就像一个搞破坏的 ts 库一样了, 可以直接把整个项目搞崩.
 但我依旧感觉这个特性很好.
+
+## 对这个特性的使用
+
+```rust
+trait PathBufExt {
+    fn file_size(&self) -> u64;
+    fn file_modified_time(&self) -> DateTime<Utc>;
+    fn file_type(&self) -> &str;
+    fn fuzzy_search_score(&self, search_str: &str) -> f32;
+}
+
+impl PathBufExt for PathBuf {
+    fn file_size(&self) -> u64 { ... }
+    fn file_modified_time(&self) -> DateTime<Utc> { ... }
+    fn file_type(&self) -> &str { ... }
+    fn fuzzy_search_score(&self, search_str: &str) -> f32 { .... }
+}
+```
+
+通过这种方式来扩展 PathBuf,
+    扩展出来的方法主要用于了展示中的排序.
+
+我个人实现的话会用一组函数来处理, 并不会去选择扩展 PathBuf.
+```rust
+fn file_size(path: &PathBuf) -> u64 { ... }
+...
+```
+当然这两种方式在这种规模下不会产生差别,
+    但项目在大几倍作者这种扩展方式可能会更好.
+没有增加新的类型, 也有更好的内聚性.
