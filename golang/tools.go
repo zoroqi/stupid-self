@@ -50,11 +50,11 @@ func AssertEqual(t *testing.T, a, b interface{}) {
 	aType := reflect.TypeOf(a)
 	switch aType.Kind() {
 	case reflect.Struct:
-		equals = defaultEqual
+		equals = DefaultEqual
 	case reflect.Array, reflect.Slice:
-		equals = arrEqual
+		equals = ArrEqual
 	default:
-		equals = defaultEqual
+		equals = DefaultEqual
 	}
 
 	AssertEqualFunc(t, a, b, equals)
@@ -75,17 +75,17 @@ func AssertEqualFunc(t *testing.T, a, b interface{}, equals func(a, b interface{
 	}
 }
 
-func defaultEqual(a, b interface{}) bool {
+func DefaultEqual(a, b interface{}) bool {
 	aType := reflect.TypeOf(a)
 	switch aType.Kind() {
 	case reflect.Array, reflect.Slice:
-		return arrEqual(a, b)
+		return ArrEqual(a, b)
 	default:
 		return a == b
 	}
 }
 
-func arrEqual(a, b interface{}) bool {
+func ArrEqual(a, b interface{}) bool {
 	av := reflect.ValueOf(a)
 	bv := reflect.ValueOf(b)
 	al := av.Len()
@@ -94,8 +94,37 @@ func arrEqual(a, b interface{}) bool {
 	if al != bl {
 		return false
 	}
-	for i:=0;i<al;i++ {
-		if !defaultEqual(av.Index(i).Interface(), bv.Index(i).Interface()) {
+	for i := 0; i < al; i++ {
+		if !DefaultEqual(av.Index(i).Interface(), bv.Index(i).Interface()) {
+			return false
+		}
+	}
+	return true
+}
+
+func SetEqual(a, b any) bool {
+	av := reflect.ValueOf(a)
+	bv := reflect.ValueOf(b)
+	al := av.Len()
+	bl := bv.Len()
+	if al != bl {
+		return false
+	}
+	am := map[any]int{}
+	for i := 0; i < al; i++ {
+		iv := av.Index(i).Interface()
+		am[iv]++
+	}
+	bm := map[any]int{}
+	for i := 0; i < bl; i++ {
+		iv := bv.Index(i).Interface()
+		bm[iv]++
+	}
+	if len(am) != len(bm) {
+		return false
+	}
+	for k := range am {
+		if bm[k] == 0 {
 			return false
 		}
 	}
@@ -121,6 +150,6 @@ func PrintTreeNodeT(root *TreeNode, t *testing.T) {
 		return
 	}
 	t.Logf("parent:%p ,%+v\n", root, *root)
-	PrintTreeNodeT(root.Left,t)
-	PrintTreeNodeT(root.Right,t)
+	PrintTreeNodeT(root.Left, t)
+	PrintTreeNodeT(root.Right, t)
 }
