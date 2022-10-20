@@ -1,7 +1,7 @@
 ---
 aliases:
-- 896. 单调数列
-- 896. monotonic array
+- 897. 单调数列
+- 897. monotonic array
 tc:
 - leetcode
 - algorithm
