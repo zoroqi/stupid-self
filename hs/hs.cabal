@@ -26,24 +26,6 @@ source-repository head
 library
   exposed-modules:
       Lib
-      Q400.Q400
-      Q400.Q401
-      Q400.Q404
-      Q400.Q406
-      Q400.Q412
-      Q400.Q440
-      Q400.Q441
-      Q400.Q445
-      Q400.Q448
-      Q400.Q456
-      Q400.Q461
-      Q400.Q481
-      Q400.Q492
-      Q400.Q496
-      Q800.Q804
-      Q800.Q806
-      Q800.Q814
-      Q800.Q824
       Struct
       Tools
   other-modules:
@@ -72,12 +54,6 @@ test-suite hs-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Tests.Q400.Q401
-      Tests.Q400.Q404
-      Tests.Q400.Q406
-      Tests.Q400.Q412
-      Tests.Q800.Q806
-      Tests.Q800.Q814
       Paths_hs
   hs-source-dirs:
       test

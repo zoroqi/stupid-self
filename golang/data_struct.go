@@ -1,6 +1,7 @@
 package stupid_self
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -133,4 +134,50 @@ func PostOrder(node *TreeNode) {
 	PostOrder(node.Left)
 	PostOrder(node.Right)
 	fmt.Println(node.Val)
+}
+
+type Stack[T any] struct {
+	arr []T
+}
+
+var (
+	StackEmptyError = errors.New("stack empty")
+)
+
+func (s *Stack[T]) Push(t T) int {
+	s.arr = append(s.arr, t)
+	return s.Length()
+}
+
+func (s *Stack[T]) Pop() (T, error) {
+	l := len(s.arr)
+	if l == 0 {
+		var t T
+		return t, StackEmptyError
+
+	}
+	t := s.arr[l-1]
+	s.arr = s.arr[:l-1]
+	return t, nil
+}
+
+func (s *Stack[T]) IsEmpty() bool {
+	return s.Length() == 0
+}
+
+func (s *Stack[T]) Length() int {
+	return len(s.arr)
+}
+
+func (s *Stack[T]) GetPop() (T, error) {
+	l := len(s.arr)
+	if l == 0 {
+		var t T
+		return t, StackEmptyError
+
+	}
+	return s.arr[l-1], nil
+}
+func (s *Stack[T]) Print() {
+	fmt.Println(s.arr)
 }
