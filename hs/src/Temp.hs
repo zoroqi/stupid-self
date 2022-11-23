@@ -1,6 +1,5 @@
 {-# LANGUAGE FunctionalDependencies, MultiParamTypeClasses #-}
-module Temp
-() where
+module Temp where
 
 import System.IO (IOMode(..))
 
@@ -12,4 +11,18 @@ class Monad m => MonadHandle h m | m -> h where
 
         hPutStrLn :: h -> String -> m ()
         hPutStrLn h s = hPutStr h s >> hPutStr h "\n"
+
+
+(+-) a b = a + b
+(-+) a b = a / b
+(-。-) a b = a + b
+
+class MyC a where
+    (++-) :: a -> a -> a
+
+instance MyC Int where
+    (++-) a b = a + b
+
+infixl 5 +-
+infix 6 -+
 
