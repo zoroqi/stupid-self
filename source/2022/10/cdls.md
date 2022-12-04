@@ -2,6 +2,8 @@
 id: 20221012195333_2c465e25d1fe4693
 date: "2022-10-12"
 github: https://github.com/SmileXie/cdls
+aliases:
+- cdls 源码阅读
 tags:
 - 源码
 - rust
@@ -10,7 +12,7 @@ tc:
 - reading_code
 ---
 
-# rust 源码阅读
+# cdls 源码阅读
 
 [cdls](https://github.com/SmileXie/cdls)
 

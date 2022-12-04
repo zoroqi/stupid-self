@@ -1,5 +1,7 @@
 ---
 github: https://github.com/barenboim/json-parser
+aliases:
+- json-parser 源码阅读
 tags:
 - 源码
 - c_cplus

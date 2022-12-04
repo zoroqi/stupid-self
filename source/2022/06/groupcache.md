@@ -1,5 +1,7 @@
 ---
 github: https://github.com/golang/groupcache
+aliases:
+- groupcache 源码阅读
 tags:
 - 源码
 - golang

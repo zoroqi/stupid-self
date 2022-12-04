@@ -1,5 +1,7 @@
 ---
 github: https://github.com/VerbalExpressions/JavaVerbalExpressions
+aliases:
+- JavaVerbalExpressions 源码阅读 
 tags:
 - 源码
 - java

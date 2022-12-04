@@ -1,5 +1,7 @@
 ---
 github: https://github.com/PaulXu-cn/go-mod-graph-chart
+aliases:
+- go god graph chart 源码阅读
 tags:
 - 源码
 - golang

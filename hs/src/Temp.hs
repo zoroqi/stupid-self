@@ -26,3 +26,6 @@ instance MyC Int where
 infixl 5 +-
 infix 6 -+
 
+subsets :: [a] -> [[a]]
+subsets [] = [[]]
+subsets (x:xs) = subsets xs ++ map (x:) (subsets xs)

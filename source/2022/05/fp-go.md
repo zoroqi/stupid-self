@@ -1,5 +1,7 @@
 ---
 github: https://github.com/repeale/fp-go
+aliases:
+- fp-go 源码阅读
 tags:
 - 源码
 - golang

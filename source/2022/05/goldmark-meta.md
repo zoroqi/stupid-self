@@ -1,5 +1,7 @@
 ---
 github: https://github.com/yuin/goldmark-meta
+aliases:
+- goldmark-meta 源码阅读
 tags:
 - 源码
 - markdown

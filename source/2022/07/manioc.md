@@ -1,5 +1,7 @@
 ---
 github: https://github.com/fuzmish/manioc
+aliases:
+- manioc 源码阅读
 tags:
 - 源码
 - golang
