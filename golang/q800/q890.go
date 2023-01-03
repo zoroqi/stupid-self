@@ -7,7 +7,7 @@ func findAndReplacePattern(words []string, pattern string) []string {
 	}
 	r := []string{}
 
-	mm, clean := func() (func(s, t rune) bool, func()) {
+	caesar, clean := func() (func(s, t rune) bool, func()) {
 		mapper := [26]rune{}
 		exist := [26]bool{}
 		return func(s, t rune) bool {
@@ -33,7 +33,7 @@ Outer:
 	for _, w := range words {
 		clean()
 		for i, b := range w {
-			if !mm(b, p[i]) {
+			if !caesar(b, p[i]) {
 				continue Outer
 			}
 
