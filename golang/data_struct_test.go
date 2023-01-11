@@ -37,5 +37,4 @@ func TestStack(t *testing.T) {
 	AssertEqual(t, stack.Length(), 0)
 	_, err := stack.Pop()
 	AssertEqual(t, err, StackEmptyError)
-
 }

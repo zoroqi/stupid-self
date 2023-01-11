@@ -130,6 +130,33 @@ func SetEqual(a, b any) bool {
 	}
 	return true
 }
+func TreeNodeEqual(a, b any) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil || b == nil {
+		return false
+	}
+	av, ok := a.(*TreeNode)
+	if !ok {
+		return false
+	}
+	bv, ok := b.(*TreeNode)
+	if !ok {
+		return false
+	}
+	if av == nil && bv == nil {
+		return true
+	}
+	if av == nil || bv == nil {
+		return false
+	}
+	if av.Val == bv.Val {
+		return TreeNodeEqual(av.Left, bv.Left) && TreeNodeEqual(av.Right, bv.Right)
+	} else {
+		return false
+	}
+}
 
 func IntMax(a, b int) int {
 	if a > b {

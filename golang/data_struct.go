@@ -3,6 +3,7 @@ package stupid_self
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 
 type TreeNode struct {
@@ -49,9 +50,25 @@ func PrintTreeNode(root *TreeNode) {
 	if root == nil {
 		return
 	}
-	fmt.Printf("parent:%p ,%+v\n", root, *root)
+	fmt.Printf("node:%p ,%+v\n", root, *root)
 	PrintTreeNode(root.Left)
 	PrintTreeNode(root.Right)
+}
+
+func PrintDeepTreeNode(root *TreeNode) {
+	if root == nil {
+		return
+	}
+	var dfs func(int, *TreeNode)
+	dfs = func(i int, node *TreeNode) {
+		if node == nil {
+			return
+		}
+		fmt.Printf("%2d%snode:%p ,%+v\n", i, strings.Repeat(" ", i), node, *node)
+		dfs(i+1, node.Left)
+		dfs(i+1, node.Right)
+	}
+	dfs(0, root)
 }
 
 type ListNode struct {
@@ -116,6 +133,21 @@ func PreOrder(node *TreeNode) {
 	fmt.Println(node.Val)
 	PreOrder(node.Left)
 	PreOrder(node.Right)
+}
+
+func (t *TreeNode) String() string {
+	var dfs func(node *TreeNode)
+	sb := strings.Builder{}
+	dfs = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		sb.WriteString(fmt.Sprintf("%d ", node.Val))
+		dfs(node.Left)
+		dfs(node.Right)
+	}
+	dfs(t)
+	return sb.String()
 }
 
 func InOrder(node *TreeNode) {
