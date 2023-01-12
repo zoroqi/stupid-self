@@ -3,6 +3,7 @@ package stupid_self
 import (
 	"errors"
 	"fmt"
+	"math"
 	"strings"
 )
 
@@ -25,7 +26,7 @@ func NewTreeNode(a []int, nilValue int) *TreeNode {
 	}
 
 	l := len(a)
-	for i := 0; i < len(a); i++ {
+	for i := 0; i < l; i++ {
 		if ta[i] == nil {
 			continue
 		}
@@ -50,7 +51,7 @@ func PrintTreeNode(root *TreeNode) {
 	if root == nil {
 		return
 	}
-	fmt.Printf("node:%p ,%+v\n", root, *root)
+	fmt.Printf("node:%pIndex ,%+v\n", root, *root)
 	PrintTreeNode(root.Left)
 	PrintTreeNode(root.Right)
 }
@@ -64,7 +65,7 @@ func PrintDeepTreeNode(root *TreeNode) {
 		if node == nil {
 			return
 		}
-		fmt.Printf("%2d%snode:%p ,%+v\n", i, strings.Repeat(" ", i), node, *node)
+		fmt.Printf("%2d%snode:%pIndex ,%+v\n", i, strings.Repeat(" ", i), node, *node)
 		dfs(i+1, node.Left)
 		dfs(i+1, node.Right)
 	}
@@ -136,18 +137,49 @@ func PreOrder(node *TreeNode) {
 }
 
 func (t *TreeNode) String() string {
-	var dfs func(node *TreeNode)
-	sb := strings.Builder{}
-	dfs = func(node *TreeNode) {
-		if node == nil {
-			return
+	na := math.NaN()
+	// 因为 nan 只能是 float64 所以就这样了,
+	//我不知道默认的零值是什么, 选择一个不会出现的数字作为零值,
+	//这样比较简单.
+	arr := []float64{}
+	add := func(n, index int) {
+		if index >= len(arr) {
+			for i := len(arr); i <= index; i++ {
+				arr = append(arr, na)
+			}
 		}
-		sb.WriteString(fmt.Sprintf("%d ", node.Val))
-		dfs(node.Left)
-		dfs(node.Right)
+		arr[index] = float64(n)
 	}
-	dfs(t)
-	return sb.String()
+	var queue []struct {
+		p int
+		n *TreeNode
+	}
+	queue = append(queue, struct {
+		p int
+		n *TreeNode
+	}{p: 0, n: t})
+	add(t.Val, 0)
+	// 之后想了想, 其实还是递归好写, 不用处理队列. 但是不想改了.
+	for len(queue) != 0 {
+		h := queue[0]
+		if h.n.Left != nil {
+			add(h.n.Left.Val, (h.p+1)*2-1)
+			queue = append(queue, struct {
+				p int
+				n *TreeNode
+			}{p: (h.p+1)*2 - 1, n: h.n.Left})
+		}
+		if h.n.Right != nil {
+			add(h.n.Right.Val, (h.p+1)*2)
+			queue = append(queue, struct {
+				p int
+				n *TreeNode
+			}{p: (h.p + 1) * 2, n: h.n.Right})
+		}
+
+		queue = queue[1:]
+	}
+	return fmt.Sprint(arr)
 }
 
 func InOrder(node *TreeNode) {

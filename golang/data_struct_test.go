@@ -7,14 +7,12 @@ import (
 func TestBuildTreeNode(t *testing.T) {
 	a := []int{1, 0, 2, 3, 4, 4, 3}
 	n := NewTreeNode(a, 0)
-	PrintTreeNode(n)
+	AssertEqualFunc(t, n, NewTreeNode([]int{1, 0, 2, 0, 0, 4, 3}, 0), TreeNodeEqual)
 }
 
 func TestListNode(t *testing.T) {
 	array := []int{1, 2, 3, 4, 5, 6, 7}
 	l := NewListNode(array)
-	PrintListNode(l)
-	l = ReverseListNode(l)
 	PrintListNode(l)
 }
 
