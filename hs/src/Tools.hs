@@ -1,7 +1,8 @@
 module Tools
     ( combination,
       permutation,
-      qsort
+      qsort,
+      sublist
     ) where
 
 import Data.List
@@ -20,3 +21,6 @@ qsort (x:xs) = smaller ++ [x] ++ bigger
         where
           smaller = qsort [a | a<-xs, a <= x]
           bigger = qsort [a | a <-xs, a > x]
+
+sublist :: Int -> Int -> [a] -> [a]
+sublist s e = drop s . take e

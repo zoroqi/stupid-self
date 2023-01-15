@@ -131,9 +131,18 @@ func PreOrder(node *TreeNode) {
 	if node == nil {
 		return
 	}
-	fmt.Println(node.Val)
-	PreOrder(node.Left)
-	PreOrder(node.Right)
+	sb := strings.Builder{}
+	var dfs func(n *TreeNode)
+	dfs = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+		sb.WriteString(fmt.Sprint(n.Val, ", "))
+		dfs(n.Left)
+		dfs(n.Right)
+	}
+	dfs(node)
+	fmt.Println(sb.String())
 }
 
 func (t *TreeNode) String() string {
@@ -186,18 +195,36 @@ func InOrder(node *TreeNode) {
 	if node == nil {
 		return
 	}
-	InOrder(node.Left)
-	fmt.Println(node.Val)
-	InOrder(node.Right)
+	sb := strings.Builder{}
+	var dfs func(n *TreeNode)
+	dfs = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+		dfs(n.Left)
+		sb.WriteString(fmt.Sprint(n.Val, ", "))
+		dfs(n.Right)
+	}
+	dfs(node)
+	fmt.Println(sb.String())
 }
 
 func PostOrder(node *TreeNode) {
 	if node == nil {
 		return
 	}
-	PostOrder(node.Left)
-	PostOrder(node.Right)
-	fmt.Println(node.Val)
+	sb := strings.Builder{}
+	var dfs func(n *TreeNode)
+	dfs = func(n *TreeNode) {
+		if n == nil {
+			return
+		}
+		dfs(n.Left)
+		dfs(n.Right)
+		sb.WriteString(fmt.Sprint(n.Val, ", "))
+	}
+	dfs(node)
+	fmt.Println(sb.String())
 }
 
 type Stack[T any] struct {
