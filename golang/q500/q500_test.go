@@ -6,5 +6,5 @@ import (
 )
 
 func TestFindWords(t *testing.T) {
-	stupid_self.AssertEqual(t,FindWords([]string{"Hello", "Alaska", "Dad", "Peace"}),[]string{"Alaska", "Dad"})
+	stupid_self.AssertEqual(t, FindWords([]string{"Hello", "Alaska", "Dad", "Peace"}), []string{"Alaska", "Dad"})
 }

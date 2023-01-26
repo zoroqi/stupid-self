@@ -12,7 +12,7 @@ func RemoveKdigits(num string, k int) string {
 
 	for i := range num {
 		c := num[i]
-		for k > 0 && len(nums) > 0 && c < nums[len(nums)-1]  {
+		for k > 0 && len(nums) > 0 && c < nums[len(nums)-1] {
 			nums = nums[:len(nums)-1]
 			k--
 		}

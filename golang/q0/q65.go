@@ -7,6 +7,7 @@ import (
 
 var reg *regexp.Regexp
 var reg_e *regexp.Regexp
+
 func init() {
 	reg, _ = regexp.Compile("^[\\-\\+]?(\\d+)?(\\.\\d*?)?(e[\\-\\+]?\\d+)?$")
 	reg_e, _ = regexp.Compile("^[\\.\\-\\+]?e[\\-\\+]?\\d+$")

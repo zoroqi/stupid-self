@@ -7,5 +7,5 @@ func constructRectangle(area int) []int {
 	for area%c != 0 {
 		c--
 	}
-	return []int{area/c, c}
+	return []int{area / c, c}
 }

@@ -40,9 +40,9 @@ func isOrder(arr []int) bool {
 
 // *   如果最后一个值小于第一个值，则交换这两个数
 // *   如果当前集合元素数量大于等于3：
-//		1.  使用臭皮匠排序法排序前2/3的元素
-//		2.  使用臭皮匠排序法排序后2/3的元素
-//		3.  再次使用臭皮匠排序法排序前2/3的元素
+//  1. 使用臭皮匠排序法排序前2/3的元素
+//  2. 使用臭皮匠排序法排序后2/3的元素
+//  3. 再次使用臭皮匠排序法排序前2/3的元素
 func StoogeSort(arr []int) (a []int, loopCount int) {
 	loopCount = stoogeSort(arr, 0, len(arr)-1)
 	a = arr
@@ -63,7 +63,8 @@ func stoogeSort(arr []int, l, r int) int {
 	return n
 }
 
-/**
+/*
+*
 在[珠排序](https://zh.wikipedia.org/wiki/%E7%8F%A0%E6%8E%92%E5%BA%8F)中，一行（row）表示一个数字。如果一行里有2颗珠子，该行代表数字2；如果一行里有4颗珠子，该行代表数字4。当给定一个数组，数组里有多少个数字，就要有多少行；数组里最大的数字是几，就要准备多少根杆子。
 
 准备就绪后，释放珠子，珠子按重力下落，就完成了排序。
@@ -84,7 +85,6 @@ func stoogeSort(arr []int, l, r int) int {
 * O(\sqrt{n})：在真实的物理世界中用引力实现，所需时间正比于珠子最大高度的平方根，而最大高度正比于n。
 * O(n)：一次移动一行珠子，可以用模拟和数字的硬件实现。
 * O(S)，S是所有输入数据的和：一次移动一个珠子，能在软件中实现。
-
 */
 func BeadSort(arr []uint) (a []uint, loopCount int) {
 	var findMax func([]uint, uint) uint

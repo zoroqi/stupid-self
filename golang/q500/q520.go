@@ -2,7 +2,8 @@ package q500
 
 import "regexp"
 
-/**
+/*
+*
 # 520. 检测大写字母
 ```
 给定一个单词，你需要判断单词的大写使用是否正确。
@@ -28,7 +29,7 @@ import "regexp"
 链接：https://leetcode-cn.com/problems/detect-capital
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 ```
- */
+*/
 var p *regexp.Regexp
 
 // 暴力正则, 狗血的golang match 含义是包含不是全匹配

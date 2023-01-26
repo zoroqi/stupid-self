@@ -45,7 +45,7 @@ func FindWords(words []string) []string {
 		}
 		return key_mapping[c]
 	}
-	Outer:
+Outer:
 	for _, w := range words {
 		lineNum := findLine(w[0])
 		for _, b := range w {

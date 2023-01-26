@@ -40,7 +40,6 @@ func forParse() Status {
 	}
 }
 
-
 func gotoParse() Status {
 
 	var tok Token

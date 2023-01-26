@@ -4,7 +4,8 @@ import (
 	"strconv"
 )
 
-/**
+/*
+*
 # 504. 七进制数
 
 ```
@@ -31,8 +32,6 @@ import (
 
 n位10进制数, 10^(n-1), 10^(n-2), 10^(n-3)...
 n位x进制数,  x^(n-1), x^(n-2), x^(n-3)...
-
-
 */
 func ConvertToBase7(num int) string {
 	s := ""
@@ -41,14 +40,14 @@ func ConvertToBase7(num int) string {
 		n = -n
 	}
 	for n != 0 {
-		s = strconv.Itoa(n%7)+s
-		n = n/7
+		s = strconv.Itoa(n%7) + s
+		n = n / 7
 	}
 	if s == "" {
 		return "0"
 	}
 	if num < 0 {
-		return "-"+s
+		return "-" + s
 	}
 	return s
 }

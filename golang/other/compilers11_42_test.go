@@ -43,3 +43,10 @@ func BenchmarkCompilers_11_42c(b *testing.B) {
 		Compilers_11_42c(arr_length, z, w, x, y)
 	}
 }
+
+func BenchmarkCompilers_11_42d(b *testing.B) {
+	z, w, x, y := buildParam(arr_length)
+	for i := 0; i < b.N; i++ {
+		Compilers_11_42d(arr_length, z, w, x, y)
+	}
+}

@@ -4,6 +4,7 @@ import (
 	. "github.com/zoroqi/stupid-self/golang"
 	"math"
 )
+
 /**
 # 508. 出现次数最多的子树元素和
 ```
@@ -37,7 +38,7 @@ import (
 链接：https://leetcode-cn.com/problems/most-frequent-subtree-sum
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 ```
- */
+*/
 
 // golang 简写声明+赋值操作真的会手抖引起作用域问题
 func FindFrequentTreeSum(root *TreeNode) []int {
