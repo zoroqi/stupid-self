@@ -79,7 +79,7 @@ executable hs-exe
       Paths_hs
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
+  ghc-options: -O2 -funbox-strict-fields -threaded -rtsopts -with-rtsopts=-N -Wall
   build-depends:
       array >=0.5.4.0
     , base >=4.7 && <5

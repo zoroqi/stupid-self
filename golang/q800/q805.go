@@ -48,13 +48,13 @@ func splitTwoPlanB(nums []int) func(stop bool) ([]int, bool) {
 			return
 		}
 		for i := 0; i < len(n); i++ {
-			n2 := append([]int{}, n...)
-			dfs(c, n2[i+1:], append(temp, n[i]))
+			//n2 := append([]int{}, n...)
+			dfs(c, n[i+1:], append(temp, n[i]))
 		}
 	}
 	go func() {
 		for i := 1; i <= len(nums)/2; i++ {
-			dfs(i, nums, nil)
+			dfs(i, nums, make([]int, 0, len(nums)))
 		}
 		close(ch)
 	}()

@@ -34,6 +34,8 @@ executables:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
+    - -O2
+    - -funbox-strict-fields
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
