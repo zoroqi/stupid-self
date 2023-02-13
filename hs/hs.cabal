@@ -61,6 +61,7 @@ library
       Q800.Q896
       Struct
       Temp
+      Temp.TC11
       Tools
   other-modules:
       Paths_hs
