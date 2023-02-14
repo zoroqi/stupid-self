@@ -1,18 +1,19 @@
 ---
 aliases:
 - 833. 字符串中的查找与替换
-- 838. find and replace in string
+- 833. find and replace in string
 tc:
 - leetcode
 - algorithm
 leetcode:
-  num: 838
+  num: 833
   url: https://leetcode.cn/problems/find-and-replace-in-string/
   tags:
   - 字符串
   - 数组
   - 排序
 date: "2023-02-13"
+id: 20230213054022_c75101d1d3b648bb
 ---
 
 # 833. 字符串中的查找与替换
