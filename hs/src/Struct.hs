@@ -5,13 +5,18 @@ module Struct
         spush,
         spop,
         sempty,
-        speek
+        speek,
+        isLeaf
     ) where
 
 data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
 
 leaf :: a -> BinTree a
 leaf a = Node a Empty Empty
+
+isLeaf :: BinTree a -> Bool
+isLeaf (Node _ Empty Empty) = True
+isLeaf _ = False
 
 type SStack a = [a]
 
