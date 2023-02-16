@@ -24,9 +24,9 @@ func splitArraySameAveragePlanB(nums []int) bool {
 	pre := splitTwoPlanB(nums)
 	n, next := pre(false)
 	for next {
-		ls := sum(n)
-		left := float64(ls) / float64(len(n))
-		if left == average {
+		lsum := sum(n)
+		lavg := float64(lsum) / float64(len(n))
+		if lavg == average {
 			n, next = pre(true)
 			return true
 		}
