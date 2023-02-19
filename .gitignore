@@ -157,3 +157,6 @@ transcribe-code/tinyhttpd/httpd.dSYM
 .fleet
 
 hs/src/temp
+
+# --------
+golang/**/*.tmp

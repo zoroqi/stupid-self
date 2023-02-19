@@ -18,7 +18,7 @@ func Subsequences[T any](arr []T) [][]T {
 	for i := 0; i < l; i++ {
 		ll := len(r)
 		for j := 0; j < ll; j++ {
-			c := append([]T{}, r[j]...)
+			c := append(make([]T, 0, len(r[j])+1), r[j]...)
 			r = append(r, append(c, arr[i]))
 		}
 	}
