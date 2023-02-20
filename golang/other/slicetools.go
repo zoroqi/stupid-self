@@ -63,3 +63,37 @@ func IterSubsequences[T any](arr []T) func() ([]T, bool) {
 		return d, i < l
 	}
 }
+
+func Permutations[T any](arr []T) [][]T {
+	l := len(arr)
+
+	if l == 0 {
+		return [][]T{}
+	}
+	initLen := 1
+	for i := 1; i <= l; i++ {
+		initLen *= i
+	}
+
+	r := make([][]T, 0, initLen)
+	r = append(r, make([]T, 0, l))
+	for i := 0; i < l; i++ {
+		ll := len(r)
+		for j := 0; j < ll; j++ {
+			rl := len(r[j]) + 1
+			kr := r[j]
+			for k := 0; k < rl; k++ {
+				a := make([]T, 0, l)
+				a = append(a, kr[:k]...)
+				a = append(a, arr[i])
+				a = append(a, kr[k:]...)
+				if k == 0 {
+					r[j] = a
+				} else {
+					r = append(r, a)
+				}
+			}
+		}
+	}
+	return r
+}
