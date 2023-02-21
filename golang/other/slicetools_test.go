@@ -2,12 +2,30 @@ package other
 
 import (
 	"reflect"
+	"sort"
 	"strconv"
 	"testing"
 )
 
 func TestSubsequences(t *testing.T) {
-	in := []int{1, 2, 3, 4, 5, 6}
+	n := 6
+	in := []int{}
+	pow := 1
+	dist := map[int]int{}
+	cFunc := func(total, num int) int {
+		a, b := 1, 1
+		for i := 0; i < num; i++ {
+			b *= i + 1
+			a *= total - i
+		}
+		return a / b
+	}
+	for j := 0; j < n; j++ {
+		in = append(in, j)
+		pow = pow * 2
+		dist[j] = cFunc(n, j)
+	}
+	dist[n] = 1
 	sub := Subsequences(in)
 	iter := IterSubsequences(in)
 	itersub := [][]int{}
@@ -16,6 +34,48 @@ func TestSubsequences(t *testing.T) {
 	}
 	if !reflect.DeepEqual(sub, itersub) {
 		t.Fail()
+	}
+	// 数量
+	if len(sub) != pow {
+		t.Fatal("error total")
+	}
+	m := map[int]int{}
+	dupMap := map[string]bool{}
+	for _, v := range sub {
+		dup := map[int]bool{}
+		for _, v1 := range v {
+			dup[v1] = true
+			m[v1]++
+		}
+		dist[len(v)]--
+		sort.Slice(v, func(i, j int) bool {
+			return v[i] < v[j]
+		})
+		key := ""
+		for _, v1 := range v {
+			key += strconv.Itoa(v1) + ","
+		}
+		dupMap[key] = true
+		// 单个组合不能有重复的元素
+		if len(dup) != len(v) {
+			t.Fatal("error duplication")
+		}
+	}
+	for _, v := range m {
+		// 每个数字出现的次数是总结过的一半
+		if v != pow/2 {
+			t.Fatal("error size")
+		}
+	}
+	// 去重数量
+	if len(dupMap) != pow {
+		t.Fatal("error total")
+	}
+	// 正确的分布
+	for _, v := range dist {
+		if v != 0 {
+			t.Fatal("error distribution")
+		}
 	}
 }
 
@@ -46,10 +106,11 @@ func TestPermutations(t *testing.T) {
 	}
 	f := Permutations(in)
 	if len(f) != fac {
-		t.Fail()
+		t.Fatal("error total")
 	}
 	m := map[string]bool{}
 	for _, v := range f {
+		// 单个排列需要保证数量正确
 		if len(v) != n {
 			t.Fatal("error len")
 		}
@@ -59,11 +120,13 @@ func TestPermutations(t *testing.T) {
 			key += strconv.Itoa(v1) + ","
 			sumv += v1
 		}
+		// 不能出现重复
 		m[key] = true
 		if sum != sumv {
 			t.Fatal("error sum")
 		}
 	}
+	// 排重后数量正确
 	if len(m) != fac {
 		t.Fatal("error total")
 	}
