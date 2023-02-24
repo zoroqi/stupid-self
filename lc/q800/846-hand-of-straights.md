@@ -1,7 +1,7 @@
 ---
 aliases:
 - 846. 一手顺子
-- 846. hand-of-straights
+- 846. hand of straights
 tc:
 - leetcode
 - algorithm

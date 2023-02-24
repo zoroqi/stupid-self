@@ -1,12 +1,12 @@
 ---
 aliases:
-- 897. 单调数列
-- 897. monotonic array
+- 896. 单调数列
+- 896. monotonic array
 tc:
 - leetcode
 - algorithm
 leetcode:
-  num: 867
+  num: 896
   url: https://leetcode.cn/problems/monotonic-array/
   tags:
   - 数组
@@ -14,7 +14,7 @@ date: "2022-10-19"
 id: 20221019201946_0251cc55ddd54df3
 ---
 
-# 867. 单调数列
+# 896. 单调数列
 
 如果数组是单调递增或单调递减的，那么它是 单调 的。
 
