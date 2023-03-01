@@ -14,7 +14,7 @@ splitArraySameAveragePlanC xs = let
         l2 = l `div` 2
         initlist = (take l2 (repeat []))++[[(0,0)]]
     in
-        any (\(x,y) -> l*y == s*x) . concat $ init (foldl' (\y x-> planc (+x) l2 y) initlist xs)
+        any (\(x,y) -> l*y == s*x) . concat $ init (foldl (\y x-> planc (+x) l2 y) initlist xs)
     where
         planc :: (Int -> Int) -> Int -> [[( Int,Int )]]  -> [[( Int, Int )]]
         planc addnum  0 x = x
