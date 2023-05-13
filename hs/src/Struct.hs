@@ -7,7 +7,8 @@ module Struct
         sempty,
         speek,
         isLeaf,
-        listToTree
+        listToTree,
+        preOrder, inOrder, postOrder
     ) where
 
 data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
@@ -33,6 +34,23 @@ listToTree arr empty = buildTree 0 1 2
         rNodeIndex num = (num + 1) * 2
         lNodeIndex num = (rNodeIndex num)- 1
 
+
+preOrder :: Show a => BinTree a -> [a]
+preOrder n = dfsOrder n (\v l r -> [v] ++ l ++ r)
+
+inOrder :: Show a => BinTree a -> [a]
+inOrder n = dfsOrder n (\v l r -> l ++[v]++ r)
+
+postOrder :: Show a => BinTree a -> [a]
+postOrder n = dfsOrder n (\v l r ->  l ++ r ++ [v])
+
+dfsOrder :: BinTree a -> (a -> [a] -> [a] -> [a]) -> [a]
+dfsOrder Empty _ = []
+dfsOrder (Node v l r) merge = let
+        ll = dfsOrder l merge
+        rr = dfsOrder r merge
+    in
+        merge v ll rr
 
 
 type SStack a = [a]
