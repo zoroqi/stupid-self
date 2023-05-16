@@ -27,6 +27,7 @@ library
   exposed-modules:
       Lib
       Q100.Q152
+      Q1000.Q1023
       Q400.Q400
       Q400.Q401
       Q400.Q404
