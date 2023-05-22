@@ -1,4 +1,4 @@
-`---
+---
 aliases:
 - 893. 特殊等价字符串组
 - 893. groups of special equivalent strings
