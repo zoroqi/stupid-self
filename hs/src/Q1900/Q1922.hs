@@ -15,3 +15,7 @@ countGoodNumbers n = if (n `mod` 2) == 0 then pow 20 (n `div` 2)
                         in
                             if y `mod` 2 == 1 then (num * num * x)  `mod` countGoodNumbersMod
                               else (num * num) `mod` countGoodNumbersMod
+
+--pow _ 0 r = r
+--pow x y r = if y `mod` 2 == 1 then pow (x*x) (y `div` 2) (r * x)
+--             else pow (x*x) (y `div` 2) r
