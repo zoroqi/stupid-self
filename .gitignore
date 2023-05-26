@@ -160,3 +160,4 @@ hs/src/temp
 
 # --------
 golang/**/*.tmp
+*.tmp
