@@ -21,7 +21,7 @@ type movie struct {
 	price  int
 }
 
-func Constructor(n int, entries [][]int) MovieRentingSystem {
+func Q1912Constructor(n int, entries [][]int) MovieRentingSystem {
 	shop := make(map[int]map[int]movie)
 	movies := make(map[int][]movie)
 	for i := 0; i < len(entries); i++ {
