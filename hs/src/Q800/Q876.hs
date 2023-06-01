@@ -6,6 +6,7 @@ module Q800.Q876
 middleNode :: [a] -> [a]
 middleNode arr = plana arr arr
     where
+        plana _ [] = []
         plana [] s = s
         plana [_] s = s
         plana [_,_] (_:sx) = sx

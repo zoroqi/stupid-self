@@ -2,6 +2,7 @@ module Q1900.Q1922 (
     countGoodNumbers
 ) where
 
+countGoodNumbersMod :: Integer
 countGoodNumbersMod = 1000000007
 
 countGoodNumbers :: Integer -> Integer

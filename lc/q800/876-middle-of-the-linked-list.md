@@ -1,7 +1,7 @@
 ---
 aliases:
 - 876. 链表的中间结点
-- 876. middle of-the linked list
+- 876. middle of the linked list
 tc:
 - leetcode
 - algorithm
@@ -56,3 +56,6 @@ haskell 的问题是我的实现会出现匹配不完全的情况,
 缺少两个匹配, 但这个算法是不会出现的情况,
     缺少的是 slow 指针的会匹配到 "[]" 的情况.
 这时候用 ListNode 就不会出现了.
+
+这种无意义的匹配真的有意义吗? 至少在这个算法中是没有实际意义的, 因为算法实现可以保证不会出现 slow 指针会比 fast 早出现 `[]`.
+但是不写会导致警告.

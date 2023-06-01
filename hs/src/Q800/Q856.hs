@@ -17,12 +17,12 @@ scoreOfParenthesesPlanB s = planb (read s)
         planb (Plus a b) = (planb a) + (planb b)
 
 -- 翻译成数学公式打印
-mathShow :: String -> String
-mathShow s = pretty (read s)
-    where
-        pretty One = "1"
-        pretty (Double a) = "2 * (" ++ pretty a ++ ")"
-        pretty (Plus a b) = pretty a ++ " + " ++ pretty b
+-- mathShow :: String -> String
+-- mathShow s = pretty (read s)
+--     where
+--         pretty One = "1"
+--         pretty (Double a) = "2 * (" ++ pretty a ++ ")"
+--         pretty (Plus a b) = pretty a ++ " + " ++ pretty b
 
 -- 可以使用 read 函数进行解析
 instance Read Pairs where
@@ -47,5 +47,4 @@ split ss = spl (tail ss) "(" "("
         spl [] (_:_) o = error ("Incomplete parentheses " ++ o)
         spl s [] o = (o, s)
         spl ('(':sx) sk o = spl sx ('(':sk) (o++"(")
-        spl (')':sx) ('(':sk) o = spl sx sk (o++")")
         spl (')':sx) ('(':sk) o = spl sx sk (o++")")
