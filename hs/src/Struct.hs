@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveFoldable #-}
 module Struct
     ( BinTree(..),
         leaf,
@@ -11,7 +12,8 @@ module Struct
         preOrder, inOrder, postOrder
     ) where
 
-data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
+data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show, Foldable)
+--data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
 
 leaf :: a -> BinTree a
 leaf a = Node a Empty Empty
@@ -34,14 +36,22 @@ listToTree arr empty = buildTree 0 1 2
         rNodeIndex num = (num + 1) * 2
         lNodeIndex num = (rNodeIndex num)- 1
 
+-- 尝试自己实现, 最后优先使用 DeriveFoldable. 三个递归, 分别对应前, 中, 后的遍历
+--instance Foldable BinTree where
+--    foldr f z Empty = z
+--    foldr f z (Node v l r) = f v (foldr f (foldr f z r) l)
+--    foldr f z (Node v l r) = foldr f (f v (foldr f z r)) l
+--    foldr f z (Node v l r) = foldr f (foldr f (f v z) r) l
+--    foldMap _ Empty = mempty
+--    foldMap f (Node v l r) = mappend (mappend (f v) (foldMap f (PROTree l))) (foldMap f (PROTree r))
 
-preOrder :: Show a => BinTree a -> [a]
+preOrder :: BinTree a -> [a]
 preOrder n = dfsOrder n (\v l r -> [v] ++ l ++ r)
 
-inOrder :: Show a => BinTree a -> [a]
+inOrder :: BinTree a -> [a]
 inOrder n = dfsOrder n (\v l r -> l ++[v]++ r)
 
-postOrder :: Show a => BinTree a -> [a]
+postOrder :: BinTree a -> [a]
 postOrder n = dfsOrder n (\v l r ->  l ++ r ++ [v])
 
 dfsOrder :: BinTree a -> (a -> [a] -> [a] -> [a]) -> [a]
