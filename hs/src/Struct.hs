@@ -9,8 +9,12 @@ module Struct
         speek,
         isLeaf,
         listToTree,
-        preOrder, inOrder, postOrder
+        preOrder, inOrder, postOrder,
+        bfsOrder
     ) where
+
+import Control.Monad.State
+    ( evalState, MonadState(put, get), State )
 
 data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show, Foldable)
 --data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
@@ -62,6 +66,31 @@ dfsOrder (Node v l r) merge = let
     in
         merge v ll rr
 
+-- 就是尝试用 State 来实现
+-- bfsOrder2 :: (Show a) => BinTree a -> [a]
+-- bfsOrder2 Empty = []
+-- bfsOrder2 root = do
+--         evalState qo2 ([root], [])
+--     where
+--         qo2 :: State ([BinTree a], [a]) [a]
+--         qo2 = do
+--             (q,r) <- get
+--             if null q then return r
+--             else do
+--                 case head q of 
+--                     Empty -> put (tail q, r)
+--                     (Node v left right) -> put (tail (q ++ [left,right]), v:r)
+--                 qo2
+
+bfsOrder :: BinTree a -> [a]
+bfsOrder Empty = []
+bfsOrder root = bfs [root] []
+    where
+        bfs [] r = r
+        bfs (x:xs) r =
+            case x of
+                Empty -> bfs xs r
+                (Node v left right) -> bfs (xs++[left,right]) (r++[v])
 
 type SStack a = [a]
 
@@ -76,4 +105,3 @@ sempty s = null s
 
 speek :: SStack a -> a
 speek s = last s
-

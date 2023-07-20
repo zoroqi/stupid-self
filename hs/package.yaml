@@ -24,6 +24,7 @@ dependencies:
 - unordered-containers >= 0.2.14.0
 - regex-posix >= 0.96.0.1
 - array >= 0.5.4.0
+- mtl >= 2.2.0
 
 
 library:
