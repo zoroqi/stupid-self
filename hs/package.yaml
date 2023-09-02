@@ -1,9 +1,8 @@
 name:                hs
 version:             0.1.0.0
-github:              "githubuser/hs"
+github:              "zoroqi/hs"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
+author:              "zoroqi"
 copyright:           "2021 Author name here"
 
 extra-source-files:
@@ -17,7 +16,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/hs#readme>
+description:         Please see the README on GitHub at <https://github.com/zoroqi/hs#readme>
 
 dependencies:
 - base >= 4.7 && < 5
@@ -25,6 +24,10 @@ dependencies:
 - regex-posix >= 0.96.0.1
 - array >= 0.5.4.0
 - mtl >= 2.2.0
+- lens >= 4.19.2
+- transformers >= 0.5.6.2
+- ansi-terminal >= 0.11
+- libiserv >= 8.10.7
 
 
 library:
