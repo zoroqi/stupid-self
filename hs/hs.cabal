@@ -1,16 +1,16 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.1.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
 
 name:           hs
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/hs#readme>
-homepage:       https://github.com/githubuser/hs#readme
-bug-reports:    https://github.com/githubuser/hs/issues
-author:         Author name here
-maintainer:     example@example.com
+description:    Please see the README on GitHub at <https://github.com/zoroqi/hs#readme>
+homepage:       https://github.com/zoroqi/hs#readme
+bug-reports:    https://github.com/zoroqi/hs/issues
+author:         zoroqi
+maintainer:     zoroqi
 copyright:      2021 Author name here
 license:        BSD3
 license-file:   LICENSE
@@ -21,10 +21,12 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/hs
+  location: https://github.com/zoroqi/hs
 
 library
   exposed-modules:
+      Game.TicTacToe
+      Game.TicTacToe2
       Lib
       Q100.Q152
       Q1000.Q1023
@@ -73,26 +75,22 @@ library
       Temp
       Temp.TC11
       Tools
-      Game.TicTacToe
   other-modules:
       Paths_hs
   hs-source-dirs:
       src
   build-depends:
-      array >=0.5.4.0
+      ansi-terminal >=0.11
+    , array >=0.5.4.0
     , base >=4.7 && <5
+    , lens >=4.19.2
+    , libiserv >=8.10.7
     , mtl >=2.2.0
+    , operational >=0.2.4.0
+    , random >=1.2.0
     , regex-posix >=0.96.0.1
+    , transformers >=0.5.6.2
     , unordered-containers >=0.2.14.0
-    , base >= 4.7 && < 5
-    , unordered-containers >= 0.2.14.0
-    , regex-posix >= 0.96.0.1
-    , array >= 0.5.4.0
-    , mtl >= 2.2.0
-    , lens >= 4.19.2
-    , transformers >= 0.5.6.2
-    , ansi-terminal >= 0.11
-    , libiserv >= 8.10.7
   default-language: Haskell2010
 
 executable hs-exe
@@ -103,11 +101,17 @@ executable hs-exe
       app
   ghc-options: -O2 -funbox-strict-fields -threaded -rtsopts -with-rtsopts=-N -Wall
   build-depends:
-      array >=0.5.4.0
+      ansi-terminal >=0.11
+    , array >=0.5.4.0
     , base >=4.7 && <5
     , hs
+    , lens >=4.19.2
+    , libiserv >=8.10.7
     , mtl >=2.2.0
+    , operational >=0.2.4.0
+    , random >=1.2.0
     , regex-posix >=0.96.0.1
+    , transformers >=0.5.6.2
     , unordered-containers >=0.2.14.0
   default-language: Haskell2010
 
@@ -128,10 +132,16 @@ test-suite hs-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
   build-depends:
       HUnit >=1.6.1.0
+    , ansi-terminal >=0.11
     , array >=0.5.4.0
     , base >=4.7 && <5
     , hs
+    , lens >=4.19.2
+    , libiserv >=8.10.7
     , mtl >=2.2.0
+    , operational >=0.2.4.0
+    , random >=1.2.0
     , regex-posix >=0.96.0.1
+    , transformers >=0.5.6.2
     , unordered-containers >=0.2.14.0
   default-language: Haskell2010

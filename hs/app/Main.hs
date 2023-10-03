@@ -1,6 +1,7 @@
 module Main where
 
-import Game.TicTacToe(startGame)
+import Game.TicTacToe2
 
-main :: IO ()
-main = startGame
+main = do
+    g <- getStdGen
+    runGame  (playerAI g) playerHuman
