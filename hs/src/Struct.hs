@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveFoldable #-}
+{-# LANGUAGE DeriveFunctor #-}
 module Struct
     ( BinTree(..),
         leaf,
@@ -16,7 +17,7 @@ module Struct
 import Control.Monad.State
     ( evalState, MonadState(put, get), State )
 
-data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show, Foldable)
+data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show, Foldable, Functor)
 --data BinTree a = Empty | Node a (BinTree a) (BinTree a) deriving(Eq,Show)
 
 leaf :: a -> BinTree a
