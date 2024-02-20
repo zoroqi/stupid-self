@@ -118,17 +118,15 @@ func (b *bptree[K, V]) Insert(k K, v V) bool {
 				node.keys = node.keys[:half]
 				node.children = node.children[:half+1]
 
-				//if len(newNode.keys) > 1 {
-				//	newNode.keys = newNode.keys[1:]
-				//	newNode.children = newNode.children[1:]
-				//} else {
 				newNode.children[0] = &bpnode[K, V]{leaf: false}
-				//}
-
 				// 修改索引
 				for i := range newNode.children {
 					newNode.children[i].parent = newNode
 				}
+				// 看到一个文档将空节点和兄弟节点进行关联, 形成链表可以解决空节点的问题.
+				// 经过测试, 不管是采用 [a,b) 还是 (a,b] 那种方案, 按照我现在的实现都会产生空节点, 只是在左边还是右边的问题.
+				// 使用链表来关联, 可以更好的处理这个问题, 但是我现在的采用的 (a,b] 感觉意义不大, 之后理解删除操作后在尝试看看如何修改.
+				// newNode.children[0] = node
 
 			}
 		}
@@ -211,7 +209,111 @@ func (b *bptree[K, V]) Delete(k K) bool {
 		return false
 	}
 
+	if len(node.keys) < b.m/2 {
+		left := b.leftSibling(node)
+		right := b.rightSibling(node)
+		// 从节点多的兄弟节点借一个元素
+		if len(left.keys) >= len(right.keys) {
+			lkey := left.keys[0]
+			node.keys = append(node.keys, lkey)
+			left.keys = deleteValue(left.keys, 0)
+			lindex := binsearch(left.parent.keys, lkey)
+			left.parent.keys[lindex] = left.keys[0]
+		} else {
+			rkey := right.keys[len(right.keys)-1]
+			nindex := binsearch(node.parent.keys, node.keys[0])
+			node.parent.keys[nindex] = right.keys[0]
+			node.keys = insertValue(node.keys, 0, rkey)
+			right.keys = deleteValue(left.keys, len(right.keys)-1)
+		}
+
+	}
+
 	return true
+}
+
+// 索引节点直接构成链表更容易找到兄弟节点
+func (b *bptree[K, V]) rightSibling(n *bpnode[K, V]) *bpnode[K, V] {
+	node := n
+	depth := 0
+	up := true
+	// 没有直接查到就向上, 之后在向下.
+	// 向上的过程始终找右测, 向下直接去 children[0] 的元素(需要过滤掉空节点)
+	for {
+		if node.parent == nil {
+			return nil
+		}
+		if up {
+			index := binsearch(node.parent.keys, node.keys[0])
+			if index < len(node.parent.keys) && node.parent.keys[index] >= node.keys[0] {
+				index++
+			}
+			depth++
+			if index+1 < len(node.parent.children) {
+				node = node.parent.children[index+1]
+				depth--
+				if depth == 0 {
+					return node
+				}
+				up = false
+			} else {
+				node = node.parent
+			}
+		} else {
+			if depth == 0 {
+				if len(node.keys) == 0 {
+					return node.parent.children[1]
+				}
+				return node
+			} else {
+				if len(node.keys) == 0 {
+					node = node.parent.children[1]
+					node = node.children[0]
+				} else {
+					node = node.children[0]
+				}
+			}
+			depth--
+		}
+	}
+
+	return nil
+}
+
+func (b *bptree[K, V]) leftSibling(n *bpnode[K, V]) *bpnode[K, V] {
+	node := n
+	depth := 0
+	up := true
+	// 没有直接查到就向上, 之后在向下.
+	// 向上的过程始终找右, 向下返回 children[n-1] 的元素
+	for {
+		if node.parent == nil {
+			return nil
+		}
+		if up {
+			index := binsearch(node.parent.keys, node.keys[0])
+			depth++
+			if index > 0 {
+				node = node.parent.children[index]
+				depth--
+				if depth == 0 && len(node.keys) != 0 {
+					return node
+				}
+				up = false
+			} else {
+				node = node.parent
+			}
+		} else {
+			if depth == 0 {
+				return node
+			} else {
+				node = node.children[len(node.children)-1]
+			}
+			depth--
+		}
+	}
+
+	return nil
 }
 
 func (b *bptree[K, V]) Iterator(f func(K, V) error) error {
@@ -235,12 +337,35 @@ func (b *bptree[K, V]) Iterator(f func(K, V) error) error {
 	return dfs(b.root)
 }
 
+func (b *bptree[K, V]) findNode(k K) *bpnode[K, V] {
+	node := b.root
+	for {
+		if !node.leaf {
+			index := binsearch(node.keys, k)
+			if index < len(node.keys) && node.keys[index] == k {
+				node = node.children[index+1]
+			} else {
+				node = node.children[index]
+			}
+		} else {
+			break
+		}
+	}
+	return node
+}
+
 func treePrint[K cmp.Ordered, V any](tree *bptree[K, V]) {
 	if tree == nil {
 		return
 	}
+	visited := map[string]bool{}
 	var dfs func(node *bpnode[K, V], level int)
 	dfs = func(node *bpnode[K, V], level int) {
+		if visited[fmt.Sprintf("%p", node)] {
+			fmt.Println(strings.Repeat("  ", level), node.keys)
+			return
+		}
+		visited[fmt.Sprintf("%p", node)] = true
 		if node.leaf {
 			//fmt.Printf("%s%p,%p,%v\n", strings.Repeat("  ", level), node, node.parent, node.keys)
 			fmt.Println(strings.Repeat("  ", level), node.keys)
@@ -248,6 +373,7 @@ func treePrint[K cmp.Ordered, V any](tree *bptree[K, V]) {
 			//fmt.Printf("%s%p,%v,%p,%v\n", strings.Repeat("  ", level), node, node.keys, node.parent, node.children)
 			fmt.Println(strings.Repeat("  ", level), node.keys)
 			for _, n := range node.children {
+				n := n
 				dfs(n, level+1)
 			}
 		}
