@@ -75,7 +75,8 @@ func (b *bptree[K, V]) Insert(k K, v V) bool {
 	node.values = insertValue(node.values, index, v)
 
 	// 第二个判断条件是 root 节点的分列
-	if len(node.keys) >= b.m || (node.leaf && node.parent == nil) {
+	// 感觉根节点还是达到 m 之后再分裂比较好, 至少不会出现只有一个元素的节点.
+	if len(node.keys) >= b.m {
 		// 叶子节点分列
 		leafLen := len(node.keys)
 		half := leafLen / 2
@@ -118,7 +119,7 @@ func (b *bptree[K, V]) Insert(k K, v V) bool {
 				node.keys = node.keys[:half]
 				node.children = node.children[:half+1]
 
-				newNode.children[0] = &bpnode[K, V]{leaf: false}
+				newNode.children[0] = &bpnode[K, V]{leaf: node.leaf}
 				// 修改索引
 				for i := range newNode.children {
 					newNode.children[i].parent = newNode
@@ -183,6 +184,8 @@ func (b *bptree[K, V]) Search(k K) (V, bool) {
 }
 
 func (b *bptree[K, V]) Delete(k K) bool {
+	//fmt.Println("+++++")
+	fmt.Println("delete ", k)
 	if b.root == nil {
 		return false
 	}
@@ -191,6 +194,7 @@ func (b *bptree[K, V]) Delete(k K) bool {
 	for {
 		if !node.leaf {
 			index := binsearch(node.keys, k)
+			fmt.Println(node.keys, k, index)
 			if index < len(node.keys) && node.keys[index] == k {
 				node = node.children[index+1]
 			} else {
@@ -204,32 +208,237 @@ func (b *bptree[K, V]) Delete(k K) bool {
 	index := binsearch(node.keys, k)
 	if index < len(node.keys) && node.keys[index] == k {
 		node.keys = deleteValue(node.keys, index)
-		node.children = deleteValue(node.children, index)
+		node.values = deleteValue(node.values, index)
 	} else {
 		return false
 	}
 
-	if len(node.keys) < b.m/2 {
-		left := b.leftSibling(node)
-		right := b.rightSibling(node)
+	if node.parent == nil {
+		return true
+	}
+	h2 := b.m / 2
+	if len(node.keys) < h2 {
+		left, right := b.nearSibling(node)
+		leftLen, _, rightLen := left.keyLen(), node.keyLen(), right.keyLen()
 		// 从节点多的兄弟节点借一个元素
-		if len(left.keys) >= len(right.keys) {
-			lkey := left.keys[0]
-			node.keys = append(node.keys, lkey)
-			left.keys = deleteValue(left.keys, 0)
-			lindex := binsearch(left.parent.keys, lkey)
-			left.parent.keys[lindex] = left.keys[0]
-		} else {
-			rkey := right.keys[len(right.keys)-1]
-			nindex := binsearch(node.parent.keys, node.keys[0])
-			node.parent.keys[nindex] = right.keys[0]
-			node.keys = insertValue(node.keys, 0, rkey)
-			right.keys = deleteValue(left.keys, len(right.keys)-1)
-		}
+		// 我好想理解错误, 我把兄弟节点理解成包含堂兄弟节点了.
+		sibling := rightLen > leftLen // true: 从右节点借, false: 从左节点借
+		//fmt.Println(left, right)
+		if leftLen != 0 && leftLen <= h2 {
+			left.keys = append(left.keys, node.keys...)
+			left.values = append(left.values, node.values...)
+			index := binsearch(left.parent.keys, node.keys[0])
+			if index == len(left.parent.keys) {
+				left.parent.keys = deleteValue(left.parent.keys, index-1)
+				left.parent.children = deleteValue(left.parent.children, index)
+			} else {
+				if left.parent.keys[index] == node.keys[0] {
+					index++
+				}
+				left.parent.keys = deleteValue(left.parent.keys, index-1)
+				left.parent.children = deleteValue(left.parent.children, index)
+			}
+			node = left
+		} else if rightLen != 0 && rightLen <= h2 {
+			node.keys = append(node.keys, right.keys...)
+			node.values = append(node.values, right.values...)
+			//index := binsearch(node.parent.keys, right.keys[0])
+			//node.parent.keys = deleteValue(node.parent.keys, index)
+			//node.parent.children = deleteValue(node.parent.children, index+1)
 
+			index := binsearch(node.parent.keys, right.keys[0])
+			if index == len(node.parent.keys) {
+				node.parent.keys = deleteValue(node.parent.keys, index-1)
+				node.parent.children = deleteValue(node.parent.children, index)
+			} else {
+				if node.parent.keys[index] == right.keys[0] {
+					index++
+				}
+				node.parent.keys = deleteValue(node.parent.keys, index-1)
+				node.parent.children = deleteValue(node.parent.children, index)
+			}
+			if node.parent.keyLen() == 0 {
+				node.parent.keys = append(node.parent.keys, node.keys[0])
+				node.parent.children = insertValue(node.parent.children, 0, &bpnode[K, V]{leaf: node.leaf, parent: node.parent})
+			}
+		} else if sibling {
+			rkey := right.keys[0]
+			node.keys = append(node.keys, rkey)
+			node.values = append(node.values, right.values[0])
+			right.keys = deleteValue(right.keys, 0)
+			right.values = deleteValue(right.values, 0)
+			rindex := binsearch(right.parent.keys, rkey)
+			if rindex == len(right.parent.keys) {
+				right.parent.keys[rindex-1] = rkey
+			} else {
+				if right.parent.keys[rindex] == rkey {
+					rindex++
+				}
+				right.parent.keys[rindex-1] = rkey
+			}
+		} else if leftLen > 0 {
+			lkey := left.keys[len(left.keys)-1]
+			node.keys = insertValue(node.keys, 0, lkey)
+			node.values = insertValue(node.values, 0, left.values[len(left.values)-1])
+			nindex := binsearch(node.parent.keys, node.keys[0])
+			if nindex == len(node.parent.keys) {
+				node.parent.keys[nindex-1] = node.keys[0]
+			} else {
+				if node.keys[0] == node.parent.keys[nindex] {
+					nindex++
+				}
+				node.parent.keys[nindex] = node.keys[0]
+			}
+
+			left.keys = deleteValue(left.keys, len(left.keys)-1)
+			left.values = deleteValue(left.values, len(left.keys)-1)
+		}
+		//fmt.Println(node.keys)
+		for {
+			treePrint(b)
+			node = node.parent
+			if node.parent == nil {
+				if node.children[0].keyLen() == 0 {
+					if len(node.children) == 2 {
+						nr := node.children[1]
+						nr.parent = nil
+						b.root = nr
+					} else {
+						node.keys = node.keys[1:]
+						node.children = node.children[1:]
+					}
+				}
+				break
+			}
+			half := (b.m - 1) / 2
+			if node.keyLen() <= half {
+				left, right := b.nearSibling(node)
+				leftLen, _, rightLen := left.keyLen(), node.keyLen(), right.keyLen()
+				if leftLen == rightLen && leftLen == 0 {
+					break
+				}
+
+				// 从节点多的兄弟节点借一个元素
+				// 我好想理解错误, 我把兄弟节点理解成包含堂兄弟节点了.
+				sibling := rightLen > leftLen // true: 从右节点借, false: 从左节点借
+				//fmt.Println(sibling, node.parent.keys, node.keys, nodeLen, leftLen, rightLen, left, right)
+				if leftLen != 0 && leftLen <= half {
+					left.keys = append(left.keys, node.keys...)
+					if node.children[0].keyLen() == 0 {
+						left.children = append(left.children, node.children[1:]...)
+					} else {
+						left.children = append(left.children, node.children...)
+					}
+					for i := range left.children {
+						left.children[i].parent = left
+					}
+					index := binsearch(left.parent.keys, node.keys[0])
+					if index == len(left.parent.keys) {
+						left.parent.keys = deleteValue(left.parent.keys, index-1)
+						left.parent.children = deleteValue(left.parent.children, index)
+					} else {
+						if left.parent.keys[index] == node.keys[0] {
+							index++
+						}
+						left.parent.keys = deleteValue(left.parent.keys, index-1)
+						left.parent.children = deleteValue(left.parent.children, index)
+					}
+					node = left
+				} else if rightLen != 0 && rightLen <= half {
+					node.keys = append(node.keys, right.keys...)
+					if right.children[0].keyLen() == 0 {
+						node.children = append(node.children, right.children[1:]...)
+					} else {
+						node.children = append(node.children, right.children...)
+					}
+					for i := range node.children {
+						node.children[i].parent = node
+					}
+					index := binsearch(node.parent.keys, right.keys[0])
+					if index == len(node.parent.keys) {
+						node.parent.keys = deleteValue(node.parent.keys, index-1)
+						node.parent.children = deleteValue(node.parent.children, index)
+					} else {
+						if node.parent.keys[index] == right.keys[0] {
+							index++
+						}
+						node.parent.keys = deleteValue(node.parent.keys, index-1)
+						node.parent.children = deleteValue(node.parent.children, index)
+					}
+				} else if sibling {
+					rkey := right.keys[0]
+					node.keys = append(node.keys, rkey)
+					if right.children[0].keyLen() == 0 {
+						right.children[1].parent = node
+						node.children = append(node.children, right.children[1])
+						right.keys = deleteValue(right.keys, 0)
+						right.children = deleteValue(right.children, 1)
+					} else {
+						right.children[0].parent = node
+						node.children = append(node.children, right.children[0])
+						right.keys = deleteValue(right.keys, 0)
+						right.children = deleteValue(right.children, 0)
+					}
+					rindex := binsearch(right.parent.keys, rkey)
+					right.parent.keys[rindex] = right.keys[0]
+				} else {
+					lkey := left.keys[len(left.keys)-1]
+					node.keys = insertValue(node.keys, 0, lkey)
+					if node.children[0].keyLen() == 0 {
+						node.children = insertValue(node.children, 1, left.children[len(left.children)-1])
+					} else {
+						node.children = insertValue(node.children, 0, left.children[len(left.children)-1])
+					}
+					left.children[len(left.children)-1].parent = node
+					nindex := binsearch(node.parent.keys, node.keys[0])
+					node.parent.keys[nindex] = node.keys[0]
+					left.keys = deleteValue(left.keys, len(left.keys)-1)
+					left.children = deleteValue(left.children, len(left.children)-1)
+				}
+				if node.parent.keyLen() == 0 {
+					node.parent.keys = append(node.parent.keys, node.keys[0])
+					node.parent.children = insertValue(node.parent.children, 0, &bpnode[K, V]{leaf: node.leaf, parent: node.parent})
+				}
+			} else {
+				break
+			}
+		}
 	}
 
 	return true
+}
+
+func (b *bpnode[K, V]) keyLen() int {
+	if b == nil {
+		return 0
+	}
+	return len(b.keys)
+}
+
+func (b *bptree[K, V]) nearSibling(n *bpnode[K, V]) (l, r *bpnode[K, V]) {
+	if n.parent == nil {
+		return nil, nil
+	}
+	fmt.Println(n.parent.keys, n.keys)
+	index := binsearch(n.parent.keys, n.keys[0])
+	fmt.Println(index, n.keys[0], n.parent.keys)
+	if index < n.parent.keyLen() && n.parent.keys[index] == n.keys[0] {
+		index++
+	}
+	if index == len(n.parent.keys) {
+		if n.parent.children[index-1].keyLen() == 0 {
+			return nil, nil
+		}
+		return n.parent.children[index-1], nil
+	}
+	if index == 0 {
+		return nil, n.parent.children[index+1]
+	}
+
+	if n.parent.children[index-1].keyLen() == 0 {
+		return nil, n.parent.children[index+1]
+	}
+	return n.parent.children[index-1], n.parent.children[index+1]
 }
 
 // 索引节点直接构成链表更容易找到兄弟节点
