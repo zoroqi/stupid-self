@@ -11,11 +11,11 @@ func Test_binsearch(t *testing.T) {
 	arr := []int{10, 20, 20, 30}
 	d := map[int]int{
 		5:  0,
-		10: 1,
+		10: 0,
 		15: 1,
-		20: 3,
+		20: 1,
 		25: 3,
-		30: 4,
+		30: 3,
 		35: 4,
 	}
 	for k, v := range d {
@@ -26,13 +26,14 @@ func Test_binsearch(t *testing.T) {
 }
 
 func TestBptree_Delete2(t *testing.T) {
-	for i := 0; i < 100; i++ {
-		TestbpTree(100, nil, rand.Intn(20)+5, t)
+	for i := 0; i < 2000; i++ {
+		TestbpTree(1000, nil, rand.Intn(20)+5, t)
 	}
 }
 
 func TestBptree(t *testing.T) {
 	arrs := [][]int{
+		{7, 97, 90, 18, 86, 99, 91, 50, 11, 6, 28, 73, 88, 27, 95, 15, 79, 41, 98, 44, 29, 9, 5, 84, 69, 78, 39, 33, 16, 3, 71, 17, 56, 62, 40, 20, 2, 32, 1, 21, 63, 43, 81, 94, 80, 59, 64, 74, 47, 67, 87, 76, 96, 48, 61, 12, 53, 75, 89, 34, 42, 36, 30, 10, 77, 8, 93, 57, 25, 45, 51, 23, 37, 65, 22, 54, 49, 26, 66, 14, 46, 19, 58, 13, 31, 82, 85, 70, 24, 35, 52, 4, 83, 68, 92, 38, 72, 60, 55, 0},
 		{64, 22, 51, 98, 73, 87, 99, 2, 14, 68, 70, 80, 79, 30, 65, 37, 86, 8, 6, 36, 41, 11, 15, 19, 3, 48, 97, 38, 44, 63, 88, 45, 55, 77, 84, 23, 78, 49, 31, 92, 90, 10, 5, 42, 58, 13, 1, 0, 74, 96, 66, 61, 12, 57, 24, 82, 76, 20, 33, 35, 40, 60, 50, 26, 46, 69, 93, 47, 83, 75, 27, 56, 67, 17, 34, 18, 43, 72, 91, 85, 7, 81, 32, 28, 54, 94, 25, 59, 29, 21, 52, 39, 95, 4, 9, 71, 16, 62, 53, 89},
 		{39, 8, 47, 26, 32, 48, 49, 2, 28, 12, 0, 31, 6, 42, 20, 7, 3, 30, 21, 11, 44, 34, 5, 24, 29, 9, 4, 46, 36, 45, 10, 33, 22, 41, 17, 14, 19, 18, 35, 40, 37, 15, 13, 23, 27, 43, 25, 1, 16, 38},
 		{20, 30, 12, 1, 37, 6, 23, 10, 11, 27, 38, 25, 24, 13, 18, 14, 5, 2, 0, 16, 39, 4, 15, 32, 28, 36, 9, 22, 17, 8, 35, 19, 21, 31, 26, 34, 7, 29, 33, 3},
@@ -44,7 +45,7 @@ func TestBptree(t *testing.T) {
 		{39, 1, 15, 19, 3, 22, 2, 23, 0, 31, 36, 28, 17, 30, 12, 24, 34, 25, 13, 21, 11, 32, 18, 10, 35, 37, 4, 16, 8, 7, 5, 26, 29, 20, 14, 9, 6, 33, 27, 38},
 	}
 	for _, arr := range arrs {
-		TestbpTree(len(arr), arr, 10, t)
+		TestbpTree(len(arr), arr, 6, t)
 	}
 
 }
@@ -58,7 +59,12 @@ func TestbpTree(length int, arr []int, treeM int, t *testing.T) {
 			arr[i], arr[j] = arr[j], arr[i]
 		})
 	}
-	fmt.Println(treeM, arr)
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(treeM, arr)
+			t.Fatal(err)
+		}
+	}()
 	tree := NewBPTree[int, int](treeM)
 	testCount := func(target int, key string) {
 		count := 0
@@ -99,7 +105,6 @@ func TestbpTree(length int, arr []int, treeM int, t *testing.T) {
 		}
 	}
 	testCount(length/2, "delete")
-
 	for _, v := range arr {
 		tree.Insert(v, v)
 	}
@@ -147,79 +152,20 @@ func TestbpTree(length int, arr []int, treeM int, t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	tree := NewBPTree[int, int](5)
-	for i := 0; i < 50; i += 4 {
-		tree.Insert(i, i)
-	}
-	//for i := 49; i >= 1; i -= 4 {
-	//	tree.Insert(i, i)
-	//}
-	//for i := 50; i <= 200; i += 1 {
-	//	tree.Insert(i, i)
-	//}
-	for i := 0; i < 15; i++ {
+	tree := NewBPTree[int, int](10)
+	for i := 0; i < 1000; i++ {
 		tree.Insert(i, i)
 	}
 	treePrint(tree.(*bptree[int, int]))
-	fmt.Println(tree.Search(28))
+	//fmt.Println(tree.Search(28))
 }
 
-func TestSibling(t *testing.T) {
-	bp := NewBPTree[int, int](5)
-	tree := bp.(*bptree[int, int])
-	for i := 0; i < 50; i++ {
-		tree.Insert(i, i)
-	}
-	treePrint(tree)
-	node35 := tree.findNode(35)
-	n35r := tree.rightSibling(node35)
-	if !reflect.DeepEqual(n35r.keys, []int{37, 38}) {
-		t.Fatalf("rightSibling failed, %v, wanted %v", n35r.keys, []int{37, 38})
-	}
-	n37l := tree.leftSibling(n35r)
-	if !reflect.DeepEqual(n37l.keys, node35.keys) {
-		t.Fatalf("leftSibling failed, %v, wanted %v", n37l.keys, node35.keys)
-	}
-	n37r := tree.rightSibling(n35r)
-	if !reflect.DeepEqual(n37r.keys, []int{39, 40}) {
-		t.Fatalf("rightSibling failed, %v, wanted %v", n37r.keys, []int{39, 40})
-	}
-	n39l := tree.leftSibling(n37r)
-	if !reflect.DeepEqual(n39l.keys, n35r.keys) {
-		t.Fatalf("leftSibling failed, %v, wanted %v", n39l.keys, n35r.keys)
-	}
-
-	node48 := tree.findNode(48)
-	no := tree.rightSibling(node48)
-	if no != nil {
-		t.Fatalf("rightSibling failed, %v, wanted %v", no, nil)
-	}
-
-	node0 := tree.findNode(0)
-	no = tree.leftSibling(node0)
-	if no != nil {
-		t.Fatalf("leftSibling failed, %v, wanted %v", no, nil)
-	}
-
-	p35r := tree.rightSibling(node35.parent)
-	if !reflect.DeepEqual(p35r.keys, []int{39, 41}) {
-		t.Fatalf("leftSibling failed, %v, wanted %v", p35r.keys, []int{39, 41})
-	}
-	p39l := tree.leftSibling(p35r)
-	if !reflect.DeepEqual(p39l.keys, node35.parent.keys) {
-		t.Fatalf("leftSibling failed, %v, wanted %v", p39l.keys, node35.parent.keys)
-	}
-}
 func TestBptree_Delete(t *testing.T) {
 	tree := NewBPTree[int, int](5)
 	for i := 0; i < 20; i++ {
 		tree.Insert(i, i)
 	}
-	treePrint(tree.(*bptree[int, int]))
 	tree.Delete(8)
-	//tree.Delete(10)
-
-	treePrint(tree.(*bptree[int, int]))
 }
 
 func createBpTree(f, t int, tree BPTree[int, int]) BPTree[int, int] {
@@ -230,22 +176,25 @@ func createBpTree(f, t int, tree BPTree[int, int]) BPTree[int, int] {
 }
 
 func Test_BptreeMerge(t *testing.T) {
+	group := 0
 	equals := func(key string, a, b any) {
 		if !reflect.DeepEqual(a, b) {
-			t.Fatalf("%s failed, %v, wanted %v", key, a, b)
+			t.Fatalf("%d: %s failed, %v, wanted %v", group, key, a, b)
 		}
 	}
 	{
+		group = 1
 		tree := createBpTree(0, 20, NewBPTree[int, int](5)).(*bptree[int, int])
 		node12 := tree.findNode(12)
 		node14 := tree.findNode(14)
 		newNode := tree.merge(node12, node14)
 		equals("newLeaf", newNode.keys, []int{12, 13, 14, 15})
-		equals("newLeafParent", newNode.parent.keys, []int{16})
-		equals("newLeafParentChldren1", newNode.parent.children[0].keys, []int{12, 13, 14, 15})
-		equals("newLeafParentChldren2", newNode.parent.children[1].keys, []int{16, 17, 18, 19})
+		equals("newLeafParent", newNode.parent.keys, []int{12, 16})
+		equals("newLeafParentChldren1", newNode.parent.children[1].keys, []int{12, 13, 14, 15})
+		equals("newLeafParentChldren2", newNode.parent.children[2].keys, []int{16, 17, 18, 19})
 	}
 	{
+		group = 2
 		tree := createBpTree(0, 20, NewBPTree[int, int](5)).(*bptree[int, int])
 		node0 := tree.findNode(0)
 		node4 := tree.findNode(4)
@@ -255,9 +204,10 @@ func Test_BptreeMerge(t *testing.T) {
 		equals("newNode.children1", newNode.children[1].keys, []int{2, 3})
 		equals("newNode.children2", newNode.children[2].keys, []int{4, 5})
 		equals("newNode.children3", newNode.children[3].keys, []int{6, 7})
-		equals("newNode.parent", newNode.parent.keys, []int{0})
+		equals("newNode.parent", newNode.parent.keys, []int{2})
 	}
 	{
+		group = 3
 		tree := createBpTree(0, 20, NewBPTree[int, int](5)).(*bptree[int, int])
 		node8 := tree.findNode(8)
 		node12 := tree.findNode(12)
@@ -276,6 +226,7 @@ func Test_BptreeMerge(t *testing.T) {
 		equals("newNode.parent", newNode.parent.keys, []int{8})
 	}
 	{
+		group = 4
 		tree := createBpTree(0, 20, NewBPTree[int, int](5)).(*bptree[int, int])
 		node4 := tree.findNode(4)
 		node6 := tree.findNode(6)

@@ -3,7 +3,6 @@ package other
 import (
 	"cmp"
 	"fmt"
-	"reflect"
 	"sort"
 	"strings"
 )
@@ -115,11 +114,10 @@ func (b *bptree[K, V]) Insert(k K, v V) bool {
 				newNode = &bpnode[K, V]{leaf: false, keys: make([]K, notLeafLen-half),
 					children: make([]*bpnode[K, V], notLeafLen-half+1), parent: node.parent}
 				copy(newNode.keys, node.keys[half:])
-				// 新分裂出的节点, 最左侧是以个空节点.
+				// 新分裂出的节点, 最左侧是一个空节点.
 				copy(newNode.children[1:], node.children[half+1:])
 				node.keys = node.keys[:half]
 				node.children = node.children[:half+1]
-
 				newNode.children[0] = &bpnode[K, V]{leaf: newNode.children[1].leaf}
 				// 修改索引
 				for i := range newNode.children {
@@ -129,7 +127,6 @@ func (b *bptree[K, V]) Insert(k K, v V) bool {
 				// 经过测试, 不管是采用 [a,b) 还是 (a,b] 那种方案, 按照我现在的实现都会产生空节点, 只是在左边还是右边的问题.
 				// 使用链表来关联, 可以更好的处理这个问题, 但是我现在的采用的 (a,b] 感觉意义不大, 之后理解删除操作后在尝试看看如何修改.
 				// newNode.children[0] = node
-
 			}
 		}
 	}
@@ -195,17 +192,6 @@ func (b *bptree[K, V]) borrow(l, n, r *bpnode[K, V]) *bpnode[K, V] {
 			r.keys = deleteValue(r.keys, 0)
 			n.values = append(n.values, r.values[0])
 			r.values = deleteValue(r.values, 0)
-			//if r.parent != nil {
-			//	index := binsearch(r.parent.keys, r.keys[0])
-			//	if index == len(r.parent.keys) {
-			//		r.parent.keys[index-1] = r.keys[0]
-			//	} else {
-			//		if r.parent.keys[index] == r.keys[0] {
-			//			index++
-			//		}
-			//		r.parent.keys[index-1] = r.keys[0]
-			//	}
-			//}
 		} else {
 			if r.children[0].keyLen() == 0 {
 				n.keys = append(n.keys, r.keys[0])
@@ -215,35 +201,11 @@ func (b *bptree[K, V]) borrow(l, n, r *bpnode[K, V]) *bpnode[K, V] {
 
 				r.keys = deleteValue(r.keys, 0)
 				r.children = deleteValue(r.children, 1)
-				//changeKey = r.keys[0]
-				//if r.parent != nil {
-				//	index := binsearch(r.parent.keys, r.keys[0])
-				//	if index == len(r.parent.keys) {
-				//		r.parent.keys[index-1] = r.keys[0]
-				//	} else {
-				//		if r.parent.keys[index] == r.keys[0] {
-				//			index++
-				//		}
-				//		r.parent.keys[index-1] = r.keys[0]
-				//	}
-				//}
 			} else {
 				n.children = append(n.children, r.children[0])
 				r.children[0].parent = n
 				n.keys = append(n.keys, r.children[0].keys[0])
 				r.children[0] = &bpnode[K, V]{leaf: n.children[0].leaf, parent: r}
-				//changeKey = r.keys[0]
-				//if r.parent != nil {
-				//	index := binsearch(r.parent.keys, r.keys[0])
-				//	if index == len(r.parent.keys) {
-				//		r.parent.keys[index-1] = r.keys[0]
-				//	} else {
-				//		if r.parent.keys[index] == r.keys[0] {
-				//			index++
-				//		}
-				//		r.parent.keys[index-1] = r.keys[0]
-				//	}
-				//}
 			}
 		}
 		targetKey = r.keys[0]
@@ -282,11 +244,6 @@ func (b *bptree[K, V]) borrow(l, n, r *bpnode[K, V]) *bpnode[K, V] {
 				n.parent.keys[index-1] = targetKey
 			}
 		}
-
-		//if n.parent.keyLen() >= 2 && n.parent.children[0].keyLen() == 0 {
-		//	n.parent.keys = n.parent.keys[1:]
-		//	n.parent.children = n.parent.children[1:]
-		//}
 	}
 	return n
 }
@@ -335,14 +292,10 @@ func (b *bptree[K, V]) merge(l, r *bpnode[K, V]) *bpnode[K, V] {
 		l.parent.keys = append(l.parent.keys, l.keys[0])
 		l.parent.children = insertValue(l.parent.children, 0, &bpnode[K, V]{leaf: l.leaf, parent: l.parent})
 	}
-	//if l.parent.keyLen() >= 2 && l.parent.children[0].keyLen() == 0 {
-	//	l.parent.keys = l.parent.keys[1:]
-	//	l.parent.children = l.parent.children[1:]
-	//}
 	return l
 }
 
-var tk = int64(550000)
+var tk = int64(110000)
 
 func (b *bptree[K, V]) Delete(k K) bool {
 	if b.root == nil {
@@ -378,11 +331,6 @@ func (b *bptree[K, V]) Delete(k K) bool {
 	}
 
 	half := (b.m + 1) / 2
-	if reflect.ValueOf(k).Kind() == reflect.Int {
-		if reflect.ValueOf(k).Int() == tk {
-			treePrint(b)
-		}
-	}
 
 	if node.keyLen() < half {
 		if node.keyLen() == 0 {
@@ -414,13 +362,7 @@ func (b *bptree[K, V]) Delete(k K) bool {
 		}
 
 		for {
-			if reflect.ValueOf(k).Kind() == reflect.Int {
-				if reflect.ValueOf(k).Int() == tk {
-					treePrint(b)
-				}
-			}
 			node = node.parent
-
 			if node.parent == nil {
 				if node.children[0].keyLen() == 0 {
 					if len(node.children) == 2 {
@@ -455,8 +397,6 @@ func (b *bptree[K, V]) Delete(k K) bool {
 			if node.keyLen() < half-1 {
 				left, right := b.nearSibling(node)
 				leftLen, nodeLen, rightLen := left.keyLen(), node.keyLen(), right.keyLen()
-
-				//fmt.Println(sibling, node.parent.keys, node.keys, nodeLen, leftLen, rightLen, left, right)
 				if leftLen != 0 && leftLen+nodeLen <= b.m-1 {
 					node = b.merge(left, node)
 				} else if rightLen != 0 && rightLen+nodeLen <= b.m-1 {
@@ -468,14 +408,21 @@ func (b *bptree[K, V]) Delete(k K) bool {
 				break
 			}
 		}
-		if !b.root.leaf && b.root.children[0].keyLen() == 0 {
-			if len(b.root.children) == 2 {
-				nr := b.root.children[1]
+
+		if !b.root.leaf {
+			if b.root.children[0].keyLen() == 0 {
+				if len(b.root.children) == 2 {
+					nr := b.root.children[1]
+					nr.parent = nil
+					b.root = nr
+				} else {
+					b.root.keys = b.root.keys[1:]
+					b.root.children = b.root.children[1:]
+				}
+			} else if b.root.keyLen() == 0 {
+				nr := b.root.children[0]
 				nr.parent = nil
 				b.root = nr
-			} else {
-				b.root.keys = b.root.keys[1:]
-				b.root.children = b.root.children[1:]
 			}
 		}
 
@@ -513,90 +460,6 @@ func (b *bptree[K, V]) nearSibling(n *bpnode[K, V]) (l, r *bpnode[K, V]) {
 		return nil, n.parent.children[index+1]
 	}
 	return n.parent.children[index-1], n.parent.children[index+1]
-}
-
-// 索引节点直接构成链表更容易找到兄弟节点
-func (b *bptree[K, V]) rightSibling(n *bpnode[K, V]) *bpnode[K, V] {
-	node := n
-	depth := 0
-	up := true
-	// 没有直接查到就向上, 之后在向下.
-	// 向上的过程始终找右测, 向下直接去 children[0] 的元素(需要过滤掉空节点)
-	for {
-		if node.parent == nil {
-			return nil
-		}
-		if up {
-			index := binsearch(node.parent.keys, node.keys[0])
-			if index < len(node.parent.keys) && node.parent.keys[index] >= node.keys[0] {
-				index++
-			}
-			depth++
-			if index+1 < len(node.parent.children) {
-				node = node.parent.children[index+1]
-				depth--
-				if depth == 0 {
-					return node
-				}
-				up = false
-			} else {
-				node = node.parent
-			}
-		} else {
-			if depth == 0 {
-				if len(node.keys) == 0 {
-					return node.parent.children[1]
-				}
-				return node
-			} else {
-				if len(node.keys) == 0 {
-					node = node.parent.children[1]
-					node = node.children[0]
-				} else {
-					node = node.children[0]
-				}
-			}
-			depth--
-		}
-	}
-
-	return nil
-}
-
-func (b *bptree[K, V]) leftSibling(n *bpnode[K, V]) *bpnode[K, V] {
-	node := n
-	depth := 0
-	up := true
-	// 没有直接查到就向上, 之后在向下.
-	// 向上的过程始终找右, 向下返回 children[n-1] 的元素
-	for {
-		if node.parent == nil {
-			return nil
-		}
-		if up {
-			index := binsearch(node.parent.keys, node.keys[0])
-			depth++
-			if index > 0 {
-				node = node.parent.children[index]
-				depth--
-				if depth == 0 && len(node.keys) != 0 {
-					return node
-				}
-				up = false
-			} else {
-				node = node.parent
-			}
-		} else {
-			if depth == 0 {
-				return node
-			} else {
-				node = node.children[len(node.children)-1]
-			}
-			depth--
-		}
-	}
-
-	return nil
 }
 
 func (b *bptree[K, V]) Iterator(f func(K, V) error) error {
@@ -668,7 +531,7 @@ func (b *bptree[K, V]) walk(fn func(n *bpnode[K, V]) error) error {
 	var dfs func(node *bpnode[K, V]) error
 	dfs = func(node *bpnode[K, V]) error {
 		for _, n := range node.children {
-			if err := fn(n); err != nil {
+			if err := dfs(n); err != nil {
 				return err
 			}
 		}
