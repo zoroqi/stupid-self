@@ -1,6 +1,6 @@
 module github.com/zoroqi/stupid-self/golang
 
-go 1.21
+go 1.22
 
 require (
 	github.com/IBM/fp-go v1.0.33 // indirect

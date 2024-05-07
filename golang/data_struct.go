@@ -15,6 +15,9 @@ type TreeNode struct {
 
 // 构建二叉树
 func NewTreeNode(a []int, nilValue int) *TreeNode {
+	if len(a) == 0 {
+		return nil
+	}
 	ta := make([]*TreeNode, 0, len(a))
 
 	for _, v := range a {

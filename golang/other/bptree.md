@@ -23,6 +23,7 @@ tc:
 - [B+树详解+代码实现（插入篇） - 周小伦 - 博客园](https://www.cnblogs.com/JayL-zxl/p/14304178.html)
 - [B+树原理以及Go语言实现 - 个人文章 - SegmentFault 思否](https://segmentfault.com/a/1190000041696709#item-3)
 - [B树和B+树的插入、删除图文详解 - nullzx - 博客园](https://www.cnblogs.com/nullzx/p/8729425.html)
+- [Introduction of B+ Tree - GeeksforGeeks](https://www.geeksforgeeks.org/introduction-of-b-tree/)
 
 是否是正确的实现? 不是, 我没有实现链表逻辑, 我也不想再补充这部分逻辑了.
 
