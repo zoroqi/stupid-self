@@ -42,7 +42,7 @@ id: 20221228062759_c564b376410c43c8
 提示：
 
 1 <= words.length <= 50
-1 <= pattern.length = words[i].length <= 20
+1 <= pattern.length = `words[i].length` <= 20
 
 ## 愚笨的思考
 

@@ -18,7 +18,7 @@ id: 20230516060905_509a5b94ad5149f3
 
 # 1023. 驼峰式匹配
 
-给你一个字符串数组 queries，和一个表示模式的字符串 pattern，请你返回一个布尔数组 answer 。只有在待查项 queries[i] 与模式串 pattern 匹配时， answer[i] 才为 true，否则为 false。
+给你一个字符串数组 queries，和一个表示模式的字符串 pattern，请你返回一个布尔数组 answer 。只有在待查项 `queries[i]` 与模式串 pattern 匹配时， `answer[i]` 才为 true，否则为 false。
 
 如果可以将小写字母插入模式串 pattern 得到待查询项 query，那么待查询项与给定模式串匹配。可以在任何位置插入每个字符，也可以不插入字符。
 
@@ -49,8 +49,8 @@ id: 20230516060905_509a5b94ad5149f3
 提示：
 
 - 1 <= pattern.length, queries.length <= 100
-- 1 <= queries[i].length <= 100
-- queries[i] 和 pattern 由英文字母组成
+- 1 <= `queries[i].length` <= 100
+- `queries[i]` 和 `pattern` 由英文字母组成
 
 ## 愚笨的思考
 
